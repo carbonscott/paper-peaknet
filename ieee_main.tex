@@ -28,9 +28,12 @@ U-Net}
 %% 2575 Sand Hill Road, Menlo Park, CA 94025, USA \\
 cwang31@slac.stanford.edu}
 \and
-\IEEEauthorblockN{Po-nan Li*\thanks{* Performed this work in
-a previous role at SLAC National Accelerator Laboratory}}
+\IEEEauthorblockN{Po-Nan Li}%*\thanks{* Performed this work in
+%a previous role at SLAC National Accelerator Laboratory}}
 %% City, Country \\
+\IEEEauthorblockA{\textit{Department of Electrical Engineering} \\ 
+\textit{Stanford University}\\
+liponan@stanford.edu} %, Stanford, CA 94305, U.S.A
 \and
 \IEEEauthorblockN{Jana Thayer}
 \IEEEauthorblockA{\textit{Linac Coherent Light Source} \\
@@ -49,27 +52,24 @@ yoon82@slac.stanford.edu}
 
 \begin{abstract}
 Serial crystallography at X-ray free electron laser (XFEL) sources has
-experienced tremendous progresses in achieving high data rate in recent times.
+experienced tremendous progress in achieving high data rate in recent times.
 While this development offers potential to enable novel scientific
-investigations, such as imaging faster molecular events, it also poses
-challenges in regards to real-time data analysis, which may have to involve some
-degree of data reduction to only save those containing actionable information on
+investigations, such as imaging molecular events at logarithmic timescales, it also poses
+challenges in regards to real-time data analysis, which involves some
+degree of data reduction to only save those features or images pertaining to the science on
 disks.  If data reduction is not effective, it could directly result in a
 substantial increase in facility budgetary requirements, or even hinder the
-utilization of ultra-high repetition imaging techqniues.  Furthermore, an
+utilization of ultra-high repetition imaging techniques making data analysis unwieldy.  Furthermore, an
 additional challenge involves providing real-time feedback to users derived from
-real-time data analysis.  Under the framework of serial crystallography, the
+real-time data analysis.  In the context of serial crystallography, the
 initial and critical step in real-time data analysis is finding X-ray Bragg
 peaks from diffraction images.  To tackle this challenge, we present \peaknet{},
 a Bragg peak finder that utilizes neural networks and runs about four times
 faster than \psocake{} peak finder, while delivering significantly better
 indexing rates and comparable number of indexed events.  We formulated the task
-of peak finding into a semantic segmentation problem, which is then addressed by
-using the classical U-Net architecture.  A key advantage of \peaknet{} is its
+of peak finding into a semantic segmentation problem, which is implemented as a classical U-Net architecture.  A key advantage of \peaknet{} is its
 ability to scale linearly with respect to data volume, making it well-suited for
-real-time serial crystallography data analysis at high data rates.  Additionally,
-we identified a performance bottleneck that, if eliminated, would result in
-scaling beyound linear capability on GPUs.
+real-time serial crystallography data analysis at high data rates.
 \end{abstract}
 
 %% \begin{IEEEkeywords}
@@ -78,16 +78,14 @@ scaling beyound linear capability on GPUs.
 
 \section{Introduction}
 
-Serial crystallography with X-ray free electron lasers (XFEL) has enabled the
-structural determination of three-dimensional macromolecules from radiation
-damage-free samples at room temperature, an approach commonly known as
+Serial femtosecond crystallography (SFX) with X-ray free electron lasers (XFEL) has enabled structural determination of macromolecules by outrunning radiation
+damage at room temperature, an approach commonly known as
 \textit{diffraction-before-destruction}
 \citep{neutzePotentialBiomolecularImaging2000,
 chapmanFemtosecondDiffractiveImaging2006,chapmanFemtosecondXrayProtein2011}.
-Time-resolved serial crystallography at XFEL facilities, like the Linac Coherent
+Time-resolved serial femtosecond crystallography (TR-SFX) at XFEL facilities, like the Linac Coherent
 Light Source (LCLS), allows the investigation of biochemical reactions with
-femtosecond-scale time resolutions.  This technique is typically referred to as
-serial femtosecond crystallography (SFX), which has led to many signficiant
+picosecond time resolution which has led to many significant
 structural studies \citep{kupitzSerialTimeresolvedCrystallography2014,
 nangoThreedimensionalMovieStructural2016,pandeFemtosecondStructuralDynamics2016a,
 youngStructurePhotosystemII2016,sugaLightinducedStructuralChanges2017,
@@ -100,37 +98,35 @@ the first MHz facility available to users and LCLS-II set to launch in 2023.
 
 At the MHz data rate, novel real-time data analysis approaches are needed to
 tackle two major challenges that arise in SFX experiments, namely data reduction
-and real time feedback.  Firstly, data reduction aims to extract and compress
-real-time actionable information by identifying important events, commonly
-referred to as ``hits", and vetoing irrelevant ones from terabytes per second of
-data streams.  One typical approach for SFX hit finding utilizes existing Bragg
+and real time feedback.  Firstly, data reduction aims to veto, extract and compress scientific data by identifying important events, commonly
+referred to as ``hits", and vetoing irrelevant ones from terabyte per second data streams.  One typical approach for SFX hit finding utilizes existing Bragg
 peak finders, such as the Cheetah peak finder
 \citep{bartyCheetahSoftwareHighthroughput2014}, the robust peak finder
-\citep{hadian-jaziPeakfindingAlgorithmBased2017} or the \psocake{} peak finder
-\citep{shinDataAnalysisUsing2018}.  Additionally, a neural networks-based SFX
+\citep{hadian-jaziPeakfindingAlgorithmBased2017}, DIALS peak finder \citep{Winter2018} or the \psocake{} peak finder
+\citep{shinDataAnalysisUsing2018}.  Additionally, a neural network-based SFX
 hit finder was reported to achieved a processing rate of 1.3 kHz on a single GPU
-\citep{keConvolutionalNeuralNetworkbased2018}.  Secondly, real-time feedback in
+\citep{keConvolutionalNeuralNetworkbased2018}. ORB feature extractor combined with a multilayer perceptron (MLP) hit classifier showed promising results for SFX data \citep{rahmaniDataReductionXray2023}.  Secondly, real-time feedback in
 SFX experiments provides users with information on the experimental conditions
 and allows them to make real-time decisions that can optimize the data
-acquisition process.  For example, it's critical to fine-tune the hit rate to
-maximize the usage of samples;  it's also important to know the current
+acquisition process.  For example, it is critical to fine-tune the hit rate to
+maximize the usage of collected data;  it is also important to know the current
 diffraction limit, crystalline mosaicity, reciprocal space coverage, and other
-revelant factors over time.  Therefore, hit finding alone is insufficient to
+relevant factors over time.  Therefore, hit finding alone is insufficient to
 provide the necessary insights, making real-time Bragg peak finding crucial in
-delivering fast and comprehensive feedbacks.  The previously mentioned peak
+delivering fast and comprehensive feedback.  The previously mentioned peak
 finder in \psocake{} runs at roughly 5 Hz on a data center CPU, which may result
-in substantial costs when attempting to scale up the process.
+in substantial cost when attempting to scale up the process.
 
 In this work, we present \peaknet{} that addresses the problem of high data rate
 peak finding by converting it into the task of peak segmentation using neural
 networks.  To accomplish this goal, we propose to train a neural network model
-to classify each individual pixel as either a peak pixel or not a peak pixel.
-This is followed by recognizing a connected area of pixels as a single peak, a
-task that can be readily accomplished through the connected component analysis
+to classify each individual pixel as either belonging to a peak or not belonging to a peak.
+This is followed by converting a connected area of pixels as a single peak, a
+task that can be readily accomplished through connected component analysis
 \citep{weaverCentrosymmetricCrossSymmetricMatrices1985}.  Subsequently, the peak
 coordinates will be determined by computing the center of mass of all the pixels
-that belong to the identified peak.  It's worth noting that the entire peak
-finding process takes place on GPUs, offering a cost-effective option for
+that belong to the identified peak.  It is worth noting that the entire peak
+finding process takes place on GPUs, offering a fully parallelizable approach for
 achieving scalability.  Concretely, our contributions can be summarized as
 follows:
 
@@ -139,18 +135,17 @@ follows:
     \item We introduce a deep neural network-based Bragg peak finder, named
     \peaknet{}, which can effectively and efficiently segment hundreds or even
     thousands of Bragg peaks with various peak profiles in detector images of
-    any size.  Despite being trained on peaks labeled by an existing peak finder,
+    any dimension.  Despite being trained on peaks labeled by an existing peak finder,
     we highlight that \peaknet{}'s capability is not limited by the peak finder
     used in labeling.
 
     \item We demonstrate the efficacy of \peaknet{} by evaluating its
     performance on large multi-panel ($1739 \times 1748$) and single-panel
-    ($1920 \times 1920$) detector.  It significantly outperformed existing
+    ($1920 \times 1920$) detectors.  It significantly outperformed existing
     methods in terms of indexing rate, while delivering comparable number of
-    indexed events.  We also finetuned the underlying U-Net architecture of
+    indexed events.  We also fine-tuned the underlying U-Net architecture of
     \peaknet{} to strike an optimal balance between model efficacy and runtime
-    performance, leading to a four times out-of-the-box processing speed than
-    \psocake{} peak finder.
+    performance, leading to a four times out-of-the-box processing speed improvement over \psocake{} peak finder.
 
 \end{itemize}
 
@@ -162,7 +157,7 @@ Reliable and automatic peak finding algorithms have undergone multiple
 iterations of development.  An early approach involved utilizing template
 matching \citep{wilkinsonIntegrationSinglecrystalReflections1988a} based on
 libraries of peak shapes, but this method was found to be slow and inefficient
-in runtime, especially when dealing with peaks with low signal-to-noise ratios
+during runtime, especially when dealing with peaks with low signal-to-noise ratios
 (SNR).  The main obstacle lies in the localization of peaks and the tuning of
 user parameters for pattern matching, compounded by the difficult task of
 developing a comprehensive library of peak shapes.  Another influential approach
@@ -175,20 +170,20 @@ provide reliable statistics, rendering it susceptible to outliers and less adept
 in analyzing weak peaks at higher scattering angles, which are essential for
 achieving atomic resolution in structure determination.
 
-While template matching and region-growing tecnhiques require users to provide
-priori information like threshold values, Robust Peak Finder (RPF)
+While template matching and region-growing techniques require users to provide
+prior information like threshold values, Robust Peak Finder (RPF)
 \citep{hadian-jaziPeakfindingAlgorithmBased2017,
 hadian-jaziDataReductionSerial2021} has demonstrated proficient peak finding
-capabilities with minimal user inputs.  This techinuqe utilizes the Modified
+capabilities with minimal user input.  This technique utilizes the Modified
 Selective Statistical Estimator (MSSE) method to segment between background
 pixels and actual peaks.  Furthermore, the RPF method can also parallelize the
-processing of diffraction patterns, making it ideal for real-time data analysis.
+processing of diffraction patterns, making it suitable for real-time data analysis.
 
 \psocake{} is a software specifically designed to streamline high throughput
 data reduction and analysis of XFEL experiments, and is routinely used at SLAC
-National Accelerator laborator (SLAC) and Pohang Accelerator Laboratory (PAL).
+National Accelerator Laboratory (SLAC) and Pohang Accelerator Laboratory (PAL).
 The built-in peak-finding algorithm \citep{shinDataAnalysisUsing2018} includes
-calibrating raw analog digital units (ADUs); applying optional background
+calibrating raw analog-to-digital units (ADUs); applying optional background
 correction and bad pixel masks; identifying possible peaks; calculating their
 SNR; determining Bragg spot sizes; and selecting peaks based on size, total
 intensity and SNR.
@@ -200,7 +195,7 @@ specifically U-Net \citep{ronnebergerUNetConvolutionalNetworks2015}, in
 accurately segmenting peak pixels, including weak peaks, from background pixels
 in neutron crystallography data.  Specifically, BraggNet employed simulated
 peaks to create training datasets, which underwent a number of preprocessing
-steps, including centering and cropping to a specfic size and adding Poisson
+steps, including centering and cropping to a specific size and adding Poisson
 noise.  It should be noted that BraggNet works on a single peak at a time within
 a small 32 by 32 window, which deviates significantly from conventional Bragg
 peak finding tasks that require extracting peak positions from images typically
@@ -211,7 +206,7 @@ positions without the need for explicit fitting of a profile function, such as
 the pseudo-Voigt profile.  Likewise, BraggNN works on a single peak at a time
 within a 11 by 11 window, performing regression to two variables representing
 the peak position.  To the best of our knowledge, no existing neural network
-based peak-finding models have demonstrated the ability to detect multiple peaks,
+based peak-finding models have demonstrated the ability to detect multiple peaks with high precision without manual tuning of peak finding parameters,
 which is the primary goal we strive to achieve with \peaknet{}.
 
 
@@ -228,7 +223,7 @@ which is the primary goal we strive to achieve with \peaknet{}.
 %   - stream files, peak found and indexed
 %   - label refinement
 
-\peaknet{} uses a U-Net architecture to perform peak segmantation on diffraction
+\peaknet{} uses a U-Net architecture to perform peak segmentation on diffraction
 images, generating a heatmap of probabilities of a given pixel belonging to a
 true peak.  A probability threshold is subsequently employed to translate the
 heatmap into a binary mask or segmentation map, with a value of one indicating a
@@ -250,11 +245,11 @@ function and the data labeling process.
 
 \subsection{The segmentation model: U-Net}
 
-Peak segmentaiton in \peaknet{} is achieved by the use of U-Net
+Peak segmentation in \peaknet{} is achieved by the use of U-Net
 \citep{ronnebergerUNetConvolutionalNetworks2015} with a reduced number of
 feature channels applied in both the contracting and expanding paths, as
 depicted in Fig. \ref{fig : unet}.  A single contracting layer contains two
-stride-one and zero-padding $3 \times 3$ convlutional layers with a rectified
+stride-one and zero-padding $3 \times 3$ convolutional layers with a rectified
 linear unit (ReLU) \citep{fukushimaCognitronSelforganizingMultilayered1975} and
 an additional stride-two $2 \times 2$ max-pooling layer.  The number of feature
 channels doubles with respect to its previous contracting layer.  Likewise, a
@@ -281,26 +276,27 @@ A main technical issue in training U-Net for Bragg peak detection is the extreme
 peak-background class imbalance (e.g., $> 10^3 : 1$), resulting in reduced
 prediction accuracy.  This may not pose as a problem in previous peak finders
 like BraggNet, which operates on a much smaller area of $32 \times 32$, whereas
-\peaknet{} is trained on larger multiple panel detectors, such as the
+\peaknet{} is trained on larger multi-panel detectors, such as the
 Cornell-SLAC pixel array detector (CSPAD) \citep{hartCornellSLACPixelArray2012}
 with a dimension of $194 \times 185$ for one of its panels.  Focal loss was
 introduced to address the extreme class imbalance problem for object detectors
 \citep{linFocalLossDense2018}.  It is defined as:
 
 \begin{equation}
-    \text{FL}(p_{\text{peak}}) = -\alpha \cdot p_{\text{background}}^\gamma
-    \cdot \log{p_{\text{peak}}}
+    \text{FL}(p) = -\alpha \cdot (1-p)^\gamma \cdot \log{p}.
 \end{equation}
 
-Here, $p_{\text{peak}}$ and $p_{\text{background}}$ are the probabilities of a
-pixel being a peak and a background, respectively, with $p_{\text{peak}} +
-p_{\text{background}} = 1$.  $\gamma$ controls a modulating factor
-$p_{\text{background}}$ and $\alpha$ is an additional modulating factor.  In
+Here, $p$ is the probabilities of a
+pixel $x$ being a peak.  $\gamma$ controls a modulating factor
+$(1-p)$ and $\alpha$ is an additional modulating factor.  We used $\gamma = 2.0$ and $\alpha = 1.2$ in \peaknet{}.  In
 practice, numerical instability will often emerge in the calculation of
-$p_\text{peak}(x) = e^{-\text{logit(x)}}$ given an output value $x$ from the
-U-Net, where $\text{logit} (x) = \log{(1 + e^{-x})}$.  To bypass this issue,
-logit needs to be rewritten as $\text{logit}(x) = a + \log{(e^{-a} + e^{-x-a})}$,
-where $a = max(0, -x)$.
+$p = e^{-\text{logit}}$, where $\text{logit} = \log{(1 + e^{-x})}$.  To bypass this issue,
+logit needs to be rewritten as $\text{logit} = a + \log{(e^{-a} + e^{-x-a})}$,
+where $a = max(0, -x)$.  As a result, if we denote the label of a pixel $x$ as $y$, the focal loss becomes
+
+\begin{equation}
+    \text{FL}(p) = \alpha \cdot y \cdot (1-p)^\gamma + \text{logit} + (1 - y) \cdot p^\gamma \cdot x + p^\gamma \cdot (1 - y) \cdot \text{logit}
+\end{equation}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DIVIDER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,22 +307,22 @@ where $a = max(0, -x)$.
 predicting on assembled images.}
 
 We demonstrated the possibility of \peaknet{} making prediction on assembled
-images from a multi-panel detectors despite being trained on individual panels.
+images from a multi-panel detector despite being trained on individual panels.
 To facilitate this investigation, we utilized a multi-panel detector CSPAD,
 which is widely used in serial crystallography experiments at LCLS.
-Specifically, we used crystallographic data from the LCLS experiment
-\textit{cxic0415} at run \textit{101} in the Coherent X-ray Imaging (CXI)
+Specifically, we used crystallographic data of streptavidin crystals from LCLS experiment
+\textit{cxic0415} run \textit{101} at the Coherent X-ray Imaging (CXI)
 instrument, where the CSPAD deployed consists of 32 panels.  An individual
 diffraction image recorded on CSPAD are conventionally saved in a stack of 64
 mini-panels (half of a physical CSPAD panel).  For data labeling, we randomly
 selected 268 mini-panels, which were labeled using the \psocake{} peak finder
 with the default settings.  We then split the labeled data into 60\% training
 set and 20\% validation set.  The remaining 20\% data were initially set aside
-for testing purposes, but were not used due to the lack of an effecitve metrics,
+for testing purposes, but were not used due to the lack of an effective metric,
 which will be discussed later in the evaluation of our model's efficacy.  Our
 test set included the first 5000 events of the run, which facilitated a faster
 feedback loop compared with going through all events in the run.  Notably, we
-didn't apply any image preprocessing, and thus \peaknet{} directly takes in an
+did not apply any image preprocessing, and thus \peaknet{} directly takes in a
 diffraction image of its original size and outputs a segmentation map.
 
 \begin{figure*}[htbp]
@@ -358,7 +354,7 @@ in data labeling will affect the peak finding capability of \peaknet{}. One
 specific limitation to investigate is the size dependency of the peak finder.
 Notably, the peak size range is a user-defined input requested by the \psocake{}
 peak finder. This works well when diffraction spots have consistent sizes.
-However, detectors such as Rayonix have a large point spread function, which may
+However, detectors such as the Rayonix have a large point spread function for intense peaks, which may
 result in large peaks being ignored by the \psocake{} peak finder.  Consequently,
 there is a concern about whether \peaknet{} will inherit the same limitations
 since it is trained on \psocake{} peak labels.
@@ -367,13 +363,13 @@ since it is trained on \psocake{} peak labels.
 \centering
 \includegraphics[width=0.9\textwidth,keepaspectratio]
 {./figures/rayonix.pdf}
-\caption{Peak finding on a Raynoix image using (c) \peaknet{} and (d) \psocake{}.  (a), (b), (c) and (d) are magnified views of some regions.}
+\caption{Peak finding on a Rayonix image using (c) \peaknet{} and (d) \psocake{}.  (a), (b), (c) and (d) are magnified views of some regions.}
 \label{fig : rayonix}
 \end{figure*}
 
 Fig. \ref{fig : rayonix} presents a side-by-side comparison of peak detection on
 a Rayonix image, with the \peaknet{} results displayed on the left and the
-\psocake{} results on the right. Upon visual inspection of Fig. \ref{fig :
+\psocake{} results on the right.  The diffraction data were collected from crystals of SARS-CoV-2 proteases using the Macromolecular Femtosecond Crystallography (MFX) instrument \citep{sierraMacromolecularFemtosecondCrystallography2019} at LCLS.  Upon visual inspection of Fig. \ref{fig :
 rayonix} (c) and (d), both \peaknet{} and \psocake{} were observed to detect a
 considerable number of peaks, suggesting a potentially comparable performance
 between the two methods.  However, upon closer inspection of the view near the
@@ -384,8 +380,8 @@ evidence that \peaknet{}'s peak finding capability is not strictly limited by
 the peak finder used in the data labeling process.  In fact, \peaknet{} appears
 to possess its own understanding of Bragg peaks, as evidenced by the exclusion
 of a weak single Bragg peak-like spot near the upper edge of the image, as shown
-in Fig. \ref{fig : rayonix} (a) and (b).  Therefore, it's important to note that
-\peaknet{} is not merely a neural network replica of the \psocake{} peak finder
+in Fig. \ref{fig : rayonix} (a) and (b).  Therefore, it is important to note that
+\peaknet{} is not merely a neural network-based replica of the \psocake{} peak finder
 despite being trained on labels supplied by it.
 
 
@@ -399,14 +395,14 @@ outcomes obtained when processed using two peak finders, \psocake{} and
 Rayonix.  The analyzed events for the CXI dataset span from 0 to 5000, whereas
 the MFX dataset encompasses a range of 0 to 8998.  \psocake{} identified 2107
 events in the CXI dataset and 465 in the MFX dataset, yielding indexing rates of
-71.2\% and 84.5\% correspondingly.  In contrast, \peaknet{} discovered 1991
+71.2\% and 84.5\%, respectively.  In contrast, \peaknet{} discovered 1991
 events in the CXI dataset and 430 in the MFX dataset, exhibiting superior
 indexing rates of 78.6\% and 90.2\%, respectively.  Although both peak finders
 exhibit varying levels of effectiveness, our evaluation has revealed that
-\peaknet{} consistently achieves superior indexing rates across both datasets,
+\peaknet{} achieves superior indexing rates across both datasets,
 while also yielding comparable numbers of indexed events.  These results suggest
 that \peaknet{} may represent a more reliable and efficient solution for the
-analysis of such data, compared to the alternative peak finder.
+analysis of such data.
 
 To provide further context and justification for this efficacy measure, it is
 important to note that conventional metrics like accuracy, precision and F-1
@@ -415,9 +411,9 @@ lack of actual ``ground truth".  This is because the peak labels used for
 training and evaluation are derived from another peak finder, rather than being
 uniquely determined in some fashion.  As a result, it is necessary to consider
 alternative measures of model performance and reliability, such as the indexing
-rate and the number of indexed events.  However, it is not surprising that
+rate and the number of indexed events.  However, 
 conventional metrics may remain a viable option when applied to synthetic data
-generated by a simulator.
+generated by a simulator.   For clarification purposes, we used the \textit{indexamajig} tool within the \textit{CrystFEL} data analysis software \citep{whiteCrystFELSoftwareSuite2012} to perform indexing.  We employed multiple indexing methods, including \textit{mosflm}, \textit{xds} and \textit{xgandalf}, with an additional setting of \textit{-int-radius=4,5,6}.   
 
 \begin{table}[htbp]
 \caption{
@@ -432,11 +428,11 @@ generated by a simulator.
     Detector          & CSPAD  & Rayonix \\
     Events to analyze & 0-5000 & 0-8998 \\
     \hline
-    \psocake{}: Found         &  2107   & 465  \\
+    \psocake{}: Hits found         &  2107   & 465  \\
     \psocake{}: Indexed       &  1501   & 393  \\
     \psocake{}: Indexing rate &  71.2\% & 84.5\% \\
     \hline
-    \peaknet{}: Found         &  1991   & 430  \\
+    \peaknet{}: Hits found         &  1991   & 430  \\
     \peaknet{}: Indexed       &  1565   & 388  \\
     \peaknet{}: Indexing rate &  78.6\% & 90.2\% \\
     \hline
@@ -530,9 +526,9 @@ the context of serial crystallography.
 
 \section*{Acknowledgment}
 
-The project was conceived by J.B.T and C.H.Y. Earlier versions of the U-Net
-models were tested by P.L. under the supervision of C.H.Y.  The experiments were
-designed by C.W with inputs from C.H.Y.  C.W prepared the datasets, labeled
+Earlier versions of the U-Net
+models were built and tested by P.L under the supervision of C.H.Y.  The experiments were
+designed by C.W with inputs from J.B.T and C.H.Y.  C.W prepared the datasets, labeled
 experimental data, and trained and evaluated the refined neural network model.
 The manuscript was written by C.W and C.H.Y with input from all authors.  This
 material is based upon work supported by the U.S.  Department of Energy, Office
