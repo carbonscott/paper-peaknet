@@ -260,7 +260,7 @@ Peak finding can pose significant computational demands, particularly in high da
 
 When processing Rayonix images with a resolution of $1920 \times 1920$, \peaknet{} achieved a significantly reduced processing time of 90 milliseconds per event on an NVIDIA 1080 Ti GPU.  In contrast, \psocake{} required 176 milliseconds per event when executed on an Intel E5-2620.  Another peak finding method, RPF (robust peak finder), operating on Intel E5-2698, is reported to require 120.0 milliseconds but on smaller AGIPD 1M images with the size of $1024 \times 1024$ \citep{hadian-jaziDataReductionSerial2021}.  This result clearly demonstrates that \peaknet{} not only delivers robust Bragg peak finding results in an autonomous fashion, but also exhibits remarkable runtime efficiency.  This establishes it as a highly competent tool for real-time autonomous Bragg peak finding.
 
-\begin{table}[t]
+\begin{table*}[t]
 \caption{
     The runtime performance of diffraction image analysis algorithms measured on
     Rayonix images containing 3.7 megapixels.  We measured runtime performance
@@ -273,7 +273,7 @@ When processing Rayonix images with a resolution of $1920 \times 1920$, \peaknet
 }
 \label{tb : runtime}
 \centering
-\resizebox{\columnwidth}{!}{
+\resizebox{!}{!}{
 \begin{tabular}{llcc}
 \hline
 Methods             & Hardware       & Image size         & Time (ms/event) \\ \hline
@@ -284,7 +284,7 @@ RPF                 & Intel E5-2698  & 1024 $\times$ 1024 & 120.0           \\ \
 %ORB+MLP             & Hit Finding  & Intel Core i5  & 720 $\times$ 720   & 50.0            \\ \hline
 \end{tabular}
 }
-\end{table}
+\end{table*}
 
 
 \section{Conclusions}
