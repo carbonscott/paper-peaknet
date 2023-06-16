@@ -29,163 +29,36 @@
 
 \begin{abstract}
 
-Serial crystallography at X-ray free electron laser (XFEL) sources has
-experienced tremendous progresses in achieving high data rate in recent times,
-offering potential to enable novel scientific investigations, such as imaging
-faster molecular events.  However, this approach also generates a significant
-amount volume of data with sparsely distributed scientific signals, posing
-challenges in data reduction and real-time feedback.  To address these concerns,
-a rapid and efficient Bragg peak finding process serves as the pivotal initial
-step, effectively addressing both data storage concerns and real-time feedback
-requirements simultaneously.  Here, we present \peaknet{}, a autonomous Bragg
-peak finder that utilizes deep neural networks, eliminating the need for manual
-parameter tuning common in conventional peak finders and the laborious task of
-manually masking pixels affected by artifact scattering, such as nozzle
-scattering rings.  \peaknet{} also exhibits exceptional runtime efficiency,
-processing a $1920 \times 1920$ image around 90 ms on an NVIDIA 1080 Ti GPU,
-with the potential for further enhancements through parallelized analysis or GPU
-stream processing.  With its ability to scale linearly with respect to data
-volume, \peaknet{} is well-suited for real-time serial crystallography data
-analysis at high data rates.
+Serial crystallography at X-ray free electron laser (XFEL) sources has experienced tremendous progresses in achieving high data rate in recent times, offering potential to enable novel scientific investigations, such as imaging faster molecular events.  However, this approach also generates a significant amount volume of data with sparsely distributed scientific signals, posing challenges in data reduction and real-time feedback.  To address these concerns, a rapid and efficient Bragg peak finding process serves as the pivotal initial step, effectively addressing both data storage concerns and real-time feedback requirements simultaneously.  Here, we present \peaknet{}, a autonomous Bragg peak finder that utilizes deep neural networks, eliminating the need for manual parameter tuning common in conventional peak finders and the laborious task of manually masking pixels affected by artifact scattering, such as nozzle scattering rings.  \peaknet{} also exhibits exceptional runtime efficiency, processing a $1920 \times 1920$ image around 90 ms on an NVIDIA 1080 Ti GPU, with the potential for further enhancements through parallelized analysis or GPU stream processing.  With its ability to scale linearly with respect to data volume, \peaknet{} is well-suited for real-time serial crystallography data analysis at high data rates.
 
 \end{abstract}
 
 
 \section{Introduction}
 
-Serial crystallography with X-ray free electron lasers (XFEL) has enabled the
-structural determination of three-dimensional macromolecules from radiation
-damage-free samples at room temperature, an approach commonly known as
-\textit{diffraction-before-destruction}
-\citep{neutzePotentialBiomolecularImaging2000,
-chapmanFemtosecondDiffractiveImaging2006,chapmanFemtosecondXrayProtein2011}.
-Time-resolved serial crystallography at XFEL facilities, like the Linac Coherent
-Light Source (LCLS), allows the investigation of biochemical reactions with
-femtosecond-scale time resolutions.  This technique is typically referred to as
-serial femtosecond crystallography (SFX), which has led to many signficiant
-structural studies \citep{kupitzSerialTimeresolvedCrystallography2014,
-nangoThreedimensionalMovieStructural2016,pandeFemtosecondStructuralDynamics2016a,
-youngStructurePhotosystemII2016,sugaLightinducedStructuralChanges2017,
-kernStructuresIntermediatesKok2018,ibrahimUntanglingSequenceEvents2020,
-sugaTimeresolvedStudiesMetalloproteins2020} since the first published work at
-LCLS \citep{aquilaTimeresolvedProteinNanocrystallography2012}.  In the meantime,
-the data rate at XFEL facilities have also gradually increased from hundreds of
-Hz to the MHz range, with the European X-ray Free Electron Laser (EuXFEL) being
-the first MHz facility available to users and LCLS-II set to launch in 2023.  
+Serial crystallography with X-ray free electron lasers (XFEL) has enabled the structural determination of three-dimensional macromolecules from radiation damage-free samples at room temperature, an approach commonly known as \textit{diffraction-before-destruction} \citep{neutzePotentialBiomolecularImaging2000, chapmanFemtosecondDiffractiveImaging2006,chapmanFemtosecondXrayProtein2011}.  Time-resolved serial crystallography at XFEL facilities, like the Linac Coherent Light Source (LCLS), allows the investigation of biochemical reactions with femtosecond-scale time resolutions.  This technique is typically referred to as serial femtosecond crystallography (SFX), which has led to many signficiant structural studies \citep{kupitzSerialTimeresolvedCrystallography2014, nangoThreedimensionalMovieStructural2016,pandeFemtosecondStructuralDynamics2016a, youngStructurePhotosystemII2016,sugaLightinducedStructuralChanges2017, kernStructuresIntermediatesKok2018,ibrahimUntanglingSequenceEvents2020, sugaTimeresolvedStudiesMetalloproteins2020} since the first published work at LCLS \citep{aquilaTimeresolvedProteinNanocrystallography2012}.  In the meantime, the data rate at XFEL facilities have also gradually increased from hundreds of Hz to the MHz range, with the European X-ray Free Electron Laser (EuXFEL) being the first MHz facility available to users and LCLS-II set to launch in 2023.  
 
-At the MHz data rate, novel real-time data analysis approaches are needed to
-tackle two major challenges that arise in SFX experiments, namely data reduction
-and real time feedback.  One common approach for finding hits in serial
-crystallography data is to utilize existing Bragg peak finders like the Cheetah
-peak finder \citep{bartyCheetahSoftwareHighthroughput2014}, the Robust Peak
-Finder (RPF) \citep{hadian-jaziPeakfindingAlgorithmBased2017}, or the \psocake{}
-\citep{yoonPsocakeGUIMaking2020} peak finder.  Additionally, a deep neural
-network-based hit finder for serial crystallography has been reported to achieve
-a processing rate of 1.3 kHz by analyzing downsized 180 $\times$ 180 images
-using a single GPU \citep{keConvolutionalNeuralNetworkbased2018}.  Secondly,
-real-time feedback in serial crystallography experiments plays a crucial role by
-providing users with important information about the experimental conditions.
-This enables them to make timely decisions that optimize the data acquisition
-process. For instance, it is essential to fine-tune the hit rate to maximize the
-utilization of samples. Additionally, it is important to monitor factors such as
-the current diffraction limit, crystalline mosaicity, reciprocal space coverage,
-and other relevant parameters over time. Therefore, relying solely on hit
-finding is insufficient to gain the necessary insights, making real-time Bragg
-peak finding vital for delivering prompt and comprehensive feedback. However,
-the peak finder mentioned earlier in \psocake{} operates at a rate of
-approximately 5 Hz on a data center CPU, which could lead to significant costs
-when scaling up the process.
+At the MHz data rate, novel real-time data analysis approaches are needed to tackle two major challenges that arise in SFX experiments, namely data reduction and real time feedback.  One common approach for finding hits in serial crystallography data is to utilize existing Bragg peak finders like the Cheetah peak finder \citep{bartyCheetahSoftwareHighthroughput2014}, the Robust Peak Finder (RPF) \citep{hadian-jaziPeakfindingAlgorithmBased2017}, or the \psocake{} \citep{yoonPsocakeGUIMaking2020} peak finder.  Additionally, a deep neural network-based hit finder for serial crystallography has been reported to achieve a processing rate of 1.3 kHz by analyzing downsized 180 $\times$ 180 images using a single GPU \citep{keConvolutionalNeuralNetworkbased2018}.  Secondly, real-time feedback in serial crystallography experiments plays a crucial role by providing users with important information about the experimental conditions.  This enables them to make timely decisions that optimize the data acquisition process. For instance, it is essential to fine-tune the hit rate to maximize the utilization of samples. Additionally, it is important to monitor factors such as the current diffraction limit, crystalline mosaicity, reciprocal space coverage, and other relevant parameters over time. Therefore, relying solely on hit finding is insufficient to gain the necessary insights, making real-time Bragg peak finding vital for delivering prompt and comprehensive feedback. However, the peak finder mentioned earlier in \psocake{} operates at a rate of approximately 5 Hz on a data center CPU, which could lead to significant costs when scaling up the process.
 
-In this work, we introduce \peaknet{}, a solution that effectively addresses the
-challenge of autonomously and efficiently identifying Bragg peaks in high data
-rate scenarios.  Our approach involves transforming the peak finding problem into
-semantic segmentation tasks, where different regions within diffraction images
-are classified and segmented using deep learning networks.  By leveraging this
-process, \peaknet{} autonomously detects Bragg peaks while effectively
-identifying strong artifact scattering, eliminating the need for human
-intervention.  Subsequently, connected areas of pixels are examined and treated
-as individual peaks, a task easily accomplished through connected component
-analysis \citep{weaverCentrosymmetricCrossSymmetricMatrices1985}.  The
-coordinates of the peaks are determined by calculating the center of mass of all
-pixels belonging to each identified peak.  Notably, the entire peak finding
-process is performed on GPUs, offering a cost-effective solution for achieving
-scalability.
+In this work, we introduce \peaknet{}, a solution that effectively addresses the challenge of autonomously and efficiently identifying Bragg peaks in high data rate scenarios.  Our approach involves transforming the peak finding problem into semantic segmentation tasks, where different regions within diffraction images are classified and segmented using deep learning networks.  By leveraging this process, \peaknet{} autonomously detects Bragg peaks while effectively identifying strong artifact scattering, eliminating the need for human intervention.  Subsequently, connected areas of pixels are examined and treated as individual peaks, a task easily accomplished through connected component analysis \citep{weaverCentrosymmetricCrossSymmetricMatrices1985}.  The coordinates of the peaks are determined by calculating the center of mass of all pixels belonging to each identified peak.  Notably, the entire peak finding process is performed on GPUs, offering a cost-effective solution for achieving scalability.
 
 
 \section{Related work}
 
-Reliable and automatic peak finding algorithms have undergone multiple
-iterations of development.  An early approach involved utilizing template
-matching \citep{wilkinsonIntegrationSinglecrystalReflections1988a} based on
-libraries of peak shapes, but this method was found to be slow and inefficient
-in runtime, especially when dealing with peaks with low signal-to-noise ratios
-(SNR).  The main obstacle lies in the localization of peaks and the tuning of
-user parameters for pattern matching, compounded by the difficult task of
-developing a comprehensive library of peak shapes.  Another influential approach
-employed region-growing techniques
-\citep{bolotovskySeedSkewnessMethodIntegration1995,
-bartyCheetahSoftwareHighthroughput2014} to detect pixel areas with high
-skewness.  In the context of serial crystallography with XFEL sources, the
-efficacy of this method was diminished due to the lack of sufficient data to
-provide reliable statistics, rendering it susceptible to outliers and less adept
-in analyzing weak peaks at higher scattering angles, which are essential for
-achieving atomic resolution in structure determination.
+Reliable and automatic peak finding algorithms have undergone multiple iterations of development.  An early approach involved utilizing template matching \citep{wilkinsonIntegrationSinglecrystalReflections1988a} based on libraries of peak shapes, but this method was found to be slow and inefficient in runtime, especially when dealing with peaks with low signal-to-noise ratios (SNR).  The main obstacle lies in the localization of peaks and the tuning of user parameters for pattern matching, compounded by the difficult task of developing a comprehensive library of peak shapes.  Another influential approach employed region-growing techniques \citep{bolotovskySeedSkewnessMethodIntegration1995, bartyCheetahSoftwareHighthroughput2014} to detect pixel areas with high skewness.  In the context of serial crystallography with XFEL sources, the efficacy of this method was diminished due to the lack of sufficient data to provide reliable statistics, rendering it susceptible to outliers and less adept in analyzing weak peaks at higher scattering angles, which are essential for achieving atomic resolution in structure determination.
 
-While template matching and region-growing tecnhiques require users to provide
-priori information like threshold values, Robust Peak Finder (RPF)
-\citep{hadian-jaziPeakfindingAlgorithmBased2017,
-hadian-jaziDataReductionSerial2021} has demonstrated proficient peak finding
-capabilities with minimal user inputs.  This techinuqe utilizes the Modified
-Selective Statistical Estimator (MSSE) method to segment between background
-pixels and actual peaks.  Furthermore, the RPF method can also parallelize the
-processing of diffraction patterns, making it ideal for real-time data analysis.
+While template matching and region-growing tecnhiques require users to provide priori information like threshold values, Robust Peak Finder (RPF) \citep{hadian-jaziPeakfindingAlgorithmBased2017, hadian-jaziDataReductionSerial2021} has demonstrated proficient peak finding capabilities with minimal user inputs.  This techinuqe utilizes the Modified Selective Statistical Estimator (MSSE) method to segment between background pixels and actual peaks.  Furthermore, the RPF method can also parallelize the processing of diffraction patterns, making it ideal for real-time data analysis.
 
-\psocake{} is a software specifically designed to streamline high throughput
-data reduction and analysis of XFEL experiments, and is routinely used at SLAC
-National Accelerator laborator (SLAC) and Pohang Accelerator Laboratory (PAL).
-The built-in peak-finding algorithm \citep{shinDataAnalysisUsing2018} includes
-calibrating raw analog digital units (ADUs); applying optional background
-correction and bad pixel masks; identifying possible peaks; calculating their
-SNR; determining Bragg spot sizes; and selecting peaks based on size, total
-intensity and SNR.
+\psocake{} is a software specifically designed to streamline high throughput data reduction and analysis of XFEL experiments, and is routinely used at SLAC National Accelerator laborator (SLAC) and Pohang Accelerator Laboratory (PAL).  The built-in peak-finding algorithm \citep{shinDataAnalysisUsing2018} includes calibrating raw analog digital units (ADUs); applying optional background correction and bad pixel masks; identifying possible peaks; calculating their SNR; determining Bragg spot sizes; and selecting peaks based on size, total intensity and SNR.
 
-In recent years, neural network models have emerged as a promising avenue for
-Bragg peak finding.  BraggNet \citep{sullivanBraggNetIntegratingBragg2019} is
-the first method that demonstrates proficiency of neural network models,
-specifically U-Net \citep{ronnebergerUNetConvolutionalNetworks2015}, in
-accurately segmenting peak pixels, including weak peaks, from background pixels
-in neutron crystallography data.  Specifically, BraggNet employed simulated
-peaks to create training datasets, which underwent a number of preprocessing
-steps, including centering and cropping to a specfic size and adding Poisson
-noise.  It should be noted that BraggNet works on a single peak at a time within
-a small 32 by 32 window, which deviates significantly from conventional Bragg
-peak finding tasks that require extracting peak positions from images typically
-with hundreds or thousands of pixels along one dimension.  Furthermore, another
-neural network method for Bragg peak analysis was detailed in the work of
-BraggNN \citep{liuBraggNNFastXray2021}, emphasizing the refinement of Bragg peak
-positions without the need for explicit fitting of a profile function, such as
-the pseudo-Voigt profile.  Likewise, BraggNN works on a single peak at a time
-within a 11 by 11 window, performing regression to two variables representing
-the peak position.  To the best of our knowledge, no existing neural network
-based peak-finding models have demonstrated the ability to detect multiple peaks,
-which is the primary goal we strive to achieve with \peaknet{}.
+In recent years, neural network models have emerged as a promising avenue for Bragg peak finding.  BraggNet \citep{sullivanBraggNetIntegratingBragg2019} is the first method that demonstrates proficiency of neural network models, specifically U-Net \citep{ronnebergerUNetConvolutionalNetworks2015}, in accurately segmenting peak pixels, including weak peaks, from background pixels in neutron crystallography data.  Specifically, BraggNet employed simulated peaks to create training datasets, which underwent a number of preprocessing steps, including centering and cropping to a specfic size and adding Poisson noise.  It should be noted that BraggNet works on a single peak at a time within a small 32 by 32 window, which deviates significantly from conventional Bragg peak finding tasks that require extracting peak positions from images typically with hundreds or thousands of pixels along one dimension.  Furthermore, another neural network method for Bragg peak analysis was detailed in the work of BraggNN \citep{liuBraggNNFastXray2021}, emphasizing the refinement of Bragg peak positions without the need for explicit fitting of a profile function, such as the pseudo-Voigt profile.  Likewise, BraggNN works on a single peak at a time within a 11 by 11 window, performing regression to two variables representing the peak position.  To the best of our knowledge, no existing neural network based peak-finding models have demonstrated the ability to detect multiple peaks, which is the primary goal we strive to achieve with \peaknet{}.
 
 
 \section{Methods}
 
-The current peak finding process of \peaknet{} comprises two steps, as depicted
-in Fig. \ref{fig : peak finding}.  Firstly, a segmentation map is obtained from
-the input image using deep neural networks.  Subsequently, peak positions are
-determined based on the generated segmentation map using connected component
-analysis \citep{weaverCentrosymmetricCrossSymmetricMatrices1985}.  Importantly,
-\peaknet{} has the capability to process inputs with arbitrary image sizes in a
-batch manner, enabling efficient analysis.
+The current peak finding process of \peaknet{} comprises two steps, as depicted in Fig. \ref{fig : peak finding}.  Firstly, a segmentation map is obtained from the input image using deep neural networks.  Subsequently, peak positions are determined based on the generated segmentation map using connected component analysis \citep{weaverCentrosymmetricCrossSymmetricMatrices1985}.  Importantly, \peaknet{} has the capability to process inputs with arbitrary image sizes in a batch manner, enabling efficient analysis.
 
-In this section, our focus is to provide a comprehensive understanding of the
-underlying deep neural network components in \peaknet{}.  We will specifically
-discuss the network architecture, data augmentation techniques, and the loss
-function employed during the training process.  Furthermore, we will emphasize
-the use of iterative data curation in addressing the outlier problem.
+In this section, our focus is to provide a comprehensive understanding of the underlying deep neural network components in \peaknet{}.  We will specifically discuss the network architecture, data augmentation techniques, and the loss function employed during the training process.  Furthermore, we will emphasize the use of iterative data curation in addressing the outlier problem.
 
 \begin{figure*}[!ht]
 \includegraphics[width=\textwidth,keepaspectratio]
@@ -201,38 +74,9 @@ capable of accommodating input with arbitrary image sizes and batch sizes.  }
 
 \subsection{Neural network architecture}
 
-The underlying neural network architecture of \peaknet{} is illustrated in
-Figure \ref{fig : network arc} (a).  It employs a residual attention U-Net
-architecture, comprising three main components: a feature extraction ``backbone",
-a feature fusion ``neck", and a single prediction ``head".  The feature
-extraction ``backbone" utilizes multiple residual double convolutional blocks to
-extract multi-resolution features, as visualized in Figure \ref{fig : network
-arc} (b).  In the feature fusion ``neck", low-resolution features are merged
-with high-resolution features using gated feature fusion blocks, as depicted in
-\ref{fig : network arc} (c).  Each block incorporates an attention gate that
-enhances shared features within both low and high-resolution feature maps.  The
-resulting combined features from each gated feature fusion block are then
-rearranged by a subsequent residual double convolutional block.  Finally, to
-accomplish the segmentation task, the prediction ``head" leverages fused
-features from the ``neck" and generates a prediction map encompassing three
-distinct labels: background, Bragg peak, and artifact scattering.  The ``head"
-itself consists of a 1 $\times$ 1 convolutional layer followed by a softmax
-function.
+The underlying neural network architecture of \peaknet{} is illustrated in Figure \ref{fig : network arc} (a).  It employs a residual attention U-Net architecture, comprising three main components: a feature extraction ``backbone", a feature fusion ``neck", and a single prediction ``head".  The feature extraction ``backbone" utilizes multiple residual double convolutional blocks to extract multi-resolution features, as visualized in Figure \ref{fig : network arc} (b).  In the feature fusion ``neck", low-resolution features are merged with high-resolution features using gated feature fusion blocks, as depicted in \ref{fig : network arc} (c).  Each block incorporates an attention gate that enhances shared features within both low and high-resolution feature maps.  The resulting combined features from each gated feature fusion block are then rearranged by a subsequent residual double convolutional block.  Finally, to accomplish the segmentation task, the prediction ``head" leverages fused features from the ``neck" and generates a prediction map encompassing three distinct labels: background, Bragg peak, and artifact scattering.  The ``head" itself consists of a 1 $\times$ 1 convolutional layer followed by a softmax function.
 
-It is essential to acknowledge that our neural network architecture is primarily
-based on the original ``Attention U-Net" design
-\citep{oktayAttentionUNetLearning2018}.  However, we want to point out that the
-three-component design, consisting of the ``backbone", ``neck" and ``head",
-offers the flexibility to replace these components with different architectures.
-For instance, the ``backbone" can be substituted with RegNet
-\citep{radosavovicDesigningNetworkDesign2020}, while the ``neck" can be replaced
-with other multi-resolution feature fusion methods like feature pyramid networks
-(FPN) \citep{linFeaturePyramidNetworks2017} or bidirectional feature pyramid
-networks (BiFPN) \citep{tanEfficientDetScalableEfficient2020}.  Additionally,
-the ``head" can be extended to perform additional tasks, if desired, such as
-predicting the likelihood of the input image being indexable.  This modular
-approach provides flexibility and allows for customization based on specific
-requirements.
+It is essential to acknowledge that our neural network architecture is primarily based on the original ``Attention U-Net" design \citep{oktayAttentionUNetLearning2018}.  However, we want to point out that the three-component design, consisting of the ``backbone", ``neck" and ``head", offers the flexibility to replace these components with different architectures.  For instance, the ``backbone" can be substituted with RegNet \citep{radosavovicDesigningNetworkDesign2020}, while the ``neck" can be replaced with other multi-resolution feature fusion methods like feature pyramid networks (FPN) \citep{linFeaturePyramidNetworks2017} or bidirectional feature pyramid networks (BiFPN) \citep{tanEfficientDetScalableEfficient2020}.  Additionally, the ``head" can be extended to perform additional tasks, if desired, such as predicting the likelihood of the input image being indexable.  This modular approach provides flexibility and allows for customization based on specific requirements.
 
 \begin{figure*}[!ht]
 \includegraphics[width=\textwidth,keepaspectratio]
@@ -247,16 +91,7 @@ multi-resolution features.}
 
 \subsection{Focal loss as the loss function}
 
-One main technical issue in training neural networks for Bragg peak segmentation
-is the extreme peak-background class imbalance (e.g., $> 10^3 : 1$), resulting
-in reduced prediction accuracy.  This may not pose as a problem in previous peak
-finders like BraggNet, which operates on a much smaller area of $32 \times 32$,
-whereas \peaknet{} is trained on larger detectors, such as Rayonix MX340-XFEL
-detector with a dimension of 1920 $\times$ 1920, even after downsizing by a
-factor of 4.  To mitigate this challenge, focal loss was introduced to address
-the extreme class imbalance problem for object detectors
-\citep{linFocalLossDense2018}.  More specifically, we employed a categorical
-focal loss.
+One main technical issue in training neural networks for Bragg peak segmentation is the extreme peak-background class imbalance (e.g., $> 10^3 : 1$), resulting in reduced prediction accuracy.  This may not pose as a problem in previous peak finders like BraggNet, which operates on a much smaller area of $32 \times 32$, whereas \peaknet{} is trained on larger detectors, such as Rayonix MX340-XFEL detector with a dimension of 1920 $\times$ 1920, even after downsizing by a factor of 4.  To mitigate this challenge, focal loss was introduced to address the extreme class imbalance problem for object detectors \citep{linFocalLossDense2018}.  More specifically, we employed a categorical focal loss.
 
 \begin{align}
 \text{CFL} &= - \sum_{i = 1}^{N}\sum_{j = 1}^{C} 
@@ -265,37 +100,12 @@ focal loss.
 \hat{p}_j^{(i)} &= f_\theta(x_j^{(i)})
 \end{align}
 
-where CFL stands for categorical focal loss, $\alpha_j$ is a balancing factor
-for each class, $y_j^{(i)}$ is the grouth truth label of the $j$-th class for
-the $i$-th example.  $p_j^{(i)}$ is the predicted probability of the $j$-th
-class for the $i$-th example, calculated by the neural network $f$ parameterized
-by $\theta$ given input $x_j^{(i)}$.  $\gamma$ is a parameter controling the
-extent to which the weight of well-classified examples, such as background
-pixels, is reduced.  In our neural network training, we chose $\gamma = 2.0$,
-essentially, this means $(1-\hat{p} _j^{(i)}) ^\gamma$ is solely responsible for
-down-weighting easy examples, as $\hat{p} _j^{(i)}$ is usually large in this
-case.  Finding the ideal values for $\alpha$ can be a delicate process with only
-marginal returns, as highlighted in the original focal loss study
-\citep{linFocalLossDense2018}.  In order to fully utilize focal loss, we decided
-to use a fixed trivial value of $\alpha = 1.2$ for all examples, primarily for
-the sake of completeness.  This choice essentially treats $\alpha$ as a simple
-scaling factor without significant impact.  It is worth noting that in most
-cases, the sum of all $\alpha_j$ values, denoted as $\sum_{j = 1}^{C} \alpha_j$,
-is expected to equal 1.
+where CFL stands for categorical focal loss, $\alpha_j$ is a balancing factor for each class, $y_j^{(i)}$ is the grouth truth label of the $j$-th class for the $i$-th example.  $p_j^{(i)}$ is the predicted probability of the $j$-th class for the $i$-th example, calculated by the neural network $f$ parameterized by $\theta$ given input $x_j^{(i)}$.  $\gamma$ is a parameter controling the extent to which the weight of well-classified examples, such as background pixels, is reduced.  In our neural network training, we chose $\gamma = 2.0$, essentially, this means $(1-\hat{p} _j^{(i)}) ^\gamma$ is solely responsible for down-weighting easy examples, as $\hat{p} _j^{(i)}$ is usually large in this case.  Finding the ideal values for $\alpha$ can be a delicate process with only marginal returns, as highlighted in the original focal loss study \citep{linFocalLossDense2018}.  In order to fully utilize focal loss, we decided to use a fixed trivial value of $\alpha = 1.2$ for all examples, primarily for the sake of completeness.  This choice essentially treats $\alpha$ as a simple scaling factor without significant impact.  It is worth noting that in most cases, the sum of all $\alpha_j$ values, denoted as $\sum_{j = 1}^{C} \alpha_j$, is expected to equal 1.
 
 
 \subsection{Data augmentation}
 
-We applied three data augmentation techniques to each diffraction pattern in our
-dataset, including random in-plane rotation, random shifting in both horizontal
-and vertical directions and random masking.  Random in-plane rotation and
-shifting augment the training data, reducing the model's tendency to memorize
-features at specific locations.  This variability promotes more generalized
-feature extraction and improved generalization performance.  Random masking
-involves randomly obscuring parts of the input data, forcing the model to learn
-other relevant features that enhance its predictive capabilities during
-training.  The result of applying data augmentation to an arbitrary example is
-shown in Fig. \ref{fig : data aug}.
+We applied three data augmentation techniques to each diffraction pattern in our dataset, including random in-plane rotation, random shifting in both horizontal and vertical directions and random masking.  Random in-plane rotation and shifting augment the training data, reducing the model's tendency to memorize features at specific locations.  This variability promotes more generalized feature extraction and improved generalization performance.  Random masking involves randomly obscuring parts of the input data, forcing the model to learn other relevant features that enhance its predictive capabilities during training.  The result of applying data augmentation to an arbitrary example is shown in Fig. \ref{fig : data aug}.
 
 \begin{figure*}[!ht]
 \includegraphics[width=\textwidth,keepaspectratio]
@@ -311,30 +121,11 @@ in this particular scenario.}
 
 \subsection{Dataset improvement and correction}
 
-\peaknet{} employs a data-driven approach to accurately identify Bragg peaks,
-requiring dataset improvement and correction to enhance performance.  This
-contrasts with model-driven approaches that primarily entail direct model
-modification to improve capabilities.  Fig. \ref{fig : data engine} illustrates
-a feedback loop for iterative dataset improvement and correction.  
+\peaknet{} employs a data-driven approach to accurately identify Bragg peaks, requiring dataset improvement and correction to enhance performance.  This contrasts with model-driven approaches that primarily entail direct model modification to improve capabilities.  Fig. \ref{fig : data engine} illustrates a feedback loop for iterative dataset improvement and correction.  
 
-The process begins with the preparation of a source dataset, often accomplished
-through a combination of algorithmic and manual data labeling.  Subsequently,
-the deep neural networks within \peaknet{} are trained on this dataset to learn
-how to accurately detect peaks.  Following training, the model is deployed to
-predict peaks on previously unseen data, and its performance is thoroughly
-evaluated.  During this evaluation, instances that notably worsen the
-performance of \peaknet{} are identified.  To address these limitations, we
-either correct low-quality labels predicted by the neural networks or,
-alternatively, acquire additional data that closely resemble these challenging
-instances and carefully annotate them.  Finally, we merge these newly labeled
-instances into the training set and retrain the model, thereby improving its
-overall performance.  
+The process begins with the preparation of a source dataset, often accomplished through a combination of algorithmic and manual data labeling.  Subsequently, the deep neural networks within \peaknet{} are trained on this dataset to learn how to accurately detect peaks.  Following training, the model is deployed to predict peaks on previously unseen data, and its performance is thoroughly evaluated.  During this evaluation, instances that notably worsen the performance of \peaknet{} are identified.  To address these limitations, we either correct low-quality labels predicted by the neural networks or, alternatively, acquire additional data that closely resemble these challenging instances and carefully annotate them.  Finally, we merge these newly labeled instances into the training set and retrain the model, thereby improving its overall performance.  
 
-Interestingly, during the initial pass of this iterative process, \peaknet{}
-showed limited performance when dealing with images containing relatively low
-levels of photons.  However, by obtaining and annotating these images, we were
-able to enhance the training dataset and, as a result, significantly improve the
-predictive performance of \peaknet{}.
+Interestingly, during the initial pass of this iterative process, \peaknet{} showed limited performance when dealing with images containing relatively low levels of photons.  However, by obtaining and annotating these images, we were able to enhance the training dataset and, as a result, significantly improve the predictive performance of \peaknet{}.
 
 
 \begin{figure}[!ht]
@@ -348,85 +139,27 @@ predictive performance of \peaknet{}.
 
 \section{Results}
 
-The primary goal of \peaknet{} is to autonomously detect Bragg peaks in
-diffraction images, devoid of any user input, such as algorithmic parameter
-tuning or manual artifact masking.  We implemented a two-step approach for peak
-detection, employing deep neural networks to perform semantic segmentation,
-which was subsequently followed by connected component analysis to extract image
-coordinates of Bragg peaks from the generated segmentation maps.  In this
-section, we begin by introducing the datasets used for training, validating, and
-testing \peaknet{}. Next, we present the evaluation results that demonstrate the
-predictive performance of \peaknet{}. Finally, we showcase its auto-masking
-capability and runtime efficiency.
+The primary goal of \peaknet{} is to autonomously detect Bragg peaks in diffraction images, devoid of any user input, such as algorithmic parameter tuning or manual artifact masking.  We implemented a two-step approach for peak detection, employing deep neural networks to perform semantic segmentation, which was subsequently followed by connected component analysis to extract image coordinates of Bragg peaks from the generated segmentation maps.  In this section, we begin by introducing the datasets used for training, validating, and testing \peaknet{}. Next, we present the evaluation results that demonstrate the predictive performance of \peaknet{}. Finally, we showcase its auto-masking capability and runtime efficiency.
 
 
 \subsection{Dataset}
 
-We obtained X-ray diffraction images from two experiments conducted at the
-Macromolecular Femtosecond Crystallography (MFX) instrument within LCLS.  The
-primary dataset utilized for training and evaluating \peaknet{} is ``mfx13016"
-(Run number: 28,31-34, 36-38), which contains diverse biological samples, e.g.
-thaumatin and proteinase, and this experiment was originally used for automated
-drop dispensing research \citep{suSerialCrystallographyUsing2021}.  These
-diffraction images were recorded on a Rayonix MX340-XFEL detector with a
-dimension of 1920 $\times$ 1920, downsized by a factor of 4 to accommodate a
-higher readout rate.  
+We obtained X-ray diffraction images from two experiments conducted at the Macromolecular Femtosecond Crystallography (MFX) instrument within LCLS.  The primary dataset utilized for training and evaluating \peaknet{} is ``mfx13016" (Run number: 28,31-34, 36-38), which contains diverse biological samples, e.g.  thaumatin and proteinase, and this experiment was originally used for automated drop dispensing research \citep{suSerialCrystallographyUsing2021}.  These diffraction images were recorded on a Rayonix MX340-XFEL detector with a dimension of 1920 $\times$ 1920, downsized by a factor of 4 to accommodate a higher readout rate.  
 
-The dataset ``mfx13016" exhibits a notable characteristic of prominent nozzle
-scattering rings accompanied by bright Bragg peak-like spots located on the
-rings.  This characteristic presents two primary challenges for crystallography
-data analysis: increased difficulty in crystal indexing and misleading
-integration results caused by artifact scattering.  The current best practice
-involves manual masking of these artifact scattering, enabling data analysis to
-proceed as if they are absent, but this process is prone to errors and
-time-consuming.  Additionally, the final outcomes often hinge on the expertise
-of the individuals conducting the data processing, resulting in biases,
-scalability limitations, lack of standardization, and the possibility of human
-errors.  Nevertheless, the inherent challenges presented by this dataset offer
-an exceptional opportunity to testify the autonomous peak finding capability of
-\peaknet{}.
+The dataset ``mfx13016" exhibits a notable characteristic of prominent nozzle scattering rings accompanied by bright Bragg peak-like spots located on the rings.  This characteristic presents two primary challenges for crystallography data analysis: increased difficulty in crystal indexing and misleading integration results caused by artifact scattering.  The current best practice involves manual masking of these artifact scattering, enabling data analysis to proceed as if they are absent, but this process is prone to errors and time-consuming.  Additionally, the final outcomes often hinge on the expertise of the individuals conducting the data processing, resulting in biases, scalability limitations, lack of standardization, and the possibility of human errors.  Nevertheless, the inherent challenges presented by this dataset offer an exceptional opportunity to testify the autonomous peak finding capability of \peaknet{}.
 
-The neural network training dataset consists of 98 Rayonix images in run 28 of
-``mfx13016", which includes thaumatin samples, and an additional 37 images
-sampled from an internal LCLS experimental dataset related to therapeutics
-development associated with SARS-CoV-2.  Incorporating the SARS-CoV-2 dataset
-aims to educate \peaknet{} about the presence of images without artifact rings,
-diversifying its understanding of different data characteristics.  Nonetheless,
-all these images used for neural network training have a dimension of 1920
-$\times$ 1920 and they are divided into an 80\% training set and a 20\%
-validation set.  The final test dataset for evaluating the model comprises all
-images in run 31-34 and run 36-38 of ``mfx13016".
+The neural network training dataset consists of 98 Rayonix images in run 28 of ``mfx13016", which includes thaumatin samples, and an additional 37 images sampled from an internal LCLS experimental dataset related to therapeutics development associated with SARS-CoV-2.  Incorporating the SARS-CoV-2 dataset aims to educate \peaknet{} about the presence of images without artifact rings, diversifying its understanding of different data characteristics.  Nonetheless, all these images used for neural network training have a dimension of 1920 $\times$ 1920 and they are divided into an 80\% training set and a 20\% validation set.  The final test dataset for evaluating the model comprises all images in run 31-34 and run 36-38 of ``mfx13016".
 
 
 \subsection{Evaluating \peaknet{}'s predictive performance}
 
-The peak finding performance of peak finders is evaluated through two
-significant indicators from a user's standpoint: the number of successfully
-indexed hits and the merging statistics.  For our evaluation, we utilized the
-CrystFEL software suite \citep{whiteCrystFELSoftwareSuite2012} to perform
-crystal indexing, integration, and merging tasks.  We use \psocake{}'s peak
-finder as a baseline in this evaluation.
+The peak finding performance of peak finders is evaluated through two significant indicators from a user's standpoint: the number of successfully indexed hits and the merging statistics.  For our evaluation, we utilized the CrystFEL software suite \citep{whiteCrystFELSoftwareSuite2012} to perform crystal indexing, integration, and merging tasks.  We use \psocake{}'s peak finder as a baseline in this evaluation.
 
 \subsubsection{Indexing results}
 
-\peaknet{} and \psocake{}, when manually fine-tuned, exhibit comparable peak
-finding performance in terms of the number of hits and the number of indexed
-images, as shown in Table \ref{tb : index}.  However, it is critical to
-emphasize that while \peaknet{} operates entirely autonomously, \psocake{}'s
-performance is contingent upon manual parameter fine-tuning and manual artifact
-scattering masking.  For example, an earlier work
-\citep{suSerialCrystallographyUsing2021}, which processed essentially the same
-experimental data, reported significantly lower hit count and indexed image
-count.  Consequently, this highlights \peaknet{}'s advantage in user-independent
-data processing.
+\peaknet{} and \psocake{}, when manually fine-tuned, exhibit comparable peak finding performance in terms of the number of hits and the number of indexed images, as shown in Table \ref{tb : index}.  However, it is critical to emphasize that while \peaknet{} operates entirely autonomously, \psocake{}'s performance is contingent upon manual parameter fine-tuning and manual artifact scattering masking.  For example, an earlier work \citep{suSerialCrystallographyUsing2021}, which processed essentially the same experimental data, reported significantly lower hit count and indexed image count.  Consequently, this highlights \peaknet{}'s advantage in user-independent data processing.
 
-Moreover, while users might prioritize the absolute number of indexed images as
-a more straightforward metric, the indexing rate provides valuable insights into
-the method's efficiency.  Both metrics jointly offer a more comprehensive
-evaluation of the peak finding method. In the case of \peaknet{}, both the
-consistently high number of indexed images and the good indexing rate testify to
-its effective and reliable autonomous peak finding process, positioning it as a
-highly viable option for Bragg peak finding.
+Moreover, while users might prioritize the absolute number of indexed images as a more straightforward metric, the indexing rate provides valuable insights into the method's efficiency.  Both metrics jointly offer a more comprehensive evaluation of the peak finding method. In the case of \peaknet{}, both the consistently high number of indexed images and the good indexing rate testify to its effective and reliable autonomous peak finding process, positioning it as a highly viable option for Bragg peak finding.
 
 
 \begin{table*}
@@ -462,31 +195,11 @@ samples (TH: thaumatin; PK: proteinase).}
 
 \subsubsection{Merging statistics}
 
-Merging statistics confirms \peaknet{}'s robust performance in terms of
-consistency and quality in data processing.  For the thaumatin (TH) sample,
-\peaknet{} demonstrates marginally superior performance in terms of R-split
-values, correlation coefficients, $I/\sigma(I)$ values, redundancy, and
-completeness, achieving these results autonomously.  Notably, the R-split value
-for the TH sample is slightly lower for \peaknet{} (0.2605 vs. 0.2732),
-suggesting slightly better internal consistency. Similarly, correlation
-coefficients for \peaknet{} are marginally higher (CC$_1/2$: 0.9434 vs.  0.9368;
-CC*: 0.9853 vs. 0.9835), indicating a minor advantage in the precision of
-measurements.
+Merging statistics confirms \peaknet{}'s robust performance in terms of consistency and quality in data processing.  For the thaumatin (TH) sample, \peaknet{} demonstrates marginally superior performance in terms of R-split values, correlation coefficients, $I/\sigma(I)$ values, redundancy, and completeness, achieving these results autonomously.  Notably, the R-split value for the TH sample is slightly lower for \peaknet{} (0.2605 vs. 0.2732), suggesting slightly better internal consistency. Similarly, correlation coefficients for \peaknet{} are marginally higher (CC$_1/2$: 0.9434 vs.  0.9368; CC*: 0.9853 vs. 0.9835), indicating a minor advantage in the precision of measurements.
 
-However, for the proteinase (PK) sample, the performance comparision is mixed.
-Although \peaknet{} lags slightly behind manually fine-tuned \psocake{} in terms
-of R-split and redundancy, it outperforms in CC$_1/2$, CC*, $I/\sigma(I)$, and
-completeness values.  This reinforces the effectiveness of \peaknet{} in
-achieving respectable results across varied sample types, without any manual
-intervention or parameter fine-tuning.  
+However, for the proteinase (PK) sample, the performance comparision is mixed.  Although \peaknet{} lags slightly behind manually fine-tuned \psocake{} in terms of R-split and redundancy, it outperforms in CC$_1/2$, CC*, $I/\sigma(I)$, and completeness values.  This reinforces the effectiveness of \peaknet{} in achieving respectable results across varied sample types, without any manual intervention or parameter fine-tuning.  
 
-Overall, \peaknet{} demonstrates comparable performance to a manually fine-tuned
-\psocake{} for two distinct samples, showcasing its potential for autonomous
-peak finding with consistent results.  By reducing dependence on the expertise
-of individuals, which can have considerable variation, \peaknet{} offers a
-promising user-indepenent solution.  Notably, despite primarily being trained on
-PK samples, \peaknet{} maintains robust and versatile performance, indicating
-its broad applicability and effectiveness in handling diverse datasets.
+Overall, \peaknet{} demonstrates comparable performance to a manually fine-tuned \psocake{} for two distinct samples, showcasing its potential for autonomous peak finding with consistent results.  By reducing dependence on the expertise of individuals, which can have considerable variation, \peaknet{} offers a promising user-indepenent solution.  Notably, despite primarily being trained on PK samples, \peaknet{} maintains robust and versatile performance, indicating its broad applicability and effectiveness in handling diverse datasets.
 
 
 \begin{table*}
@@ -512,34 +225,11 @@ Sample              & Methods & R-split & CC$_{1/2}$     & CC*       & $I/\sigma
 
 \subsection{Auto-masking: predicting artifact scattering patterns}
 
-The integration of the ``auto-masking" functionality in \peaknet{} represents a
-notable advancement in the automated processing of diffraction images.  The
-underlying neural network architecture enables \peaknet{} to autonomously
-discern and segregate pixel regions affected by artifact scattering, such as
-these appearing as distinct ring-like structures induced by liquid jet nozzle
-scattering.  This capability circumvents the need for manual masking in the peak
-finding process, thereby optimizing the efficiency of crystallographic data
-processing.
+The integration of the ``auto-masking" functionality in \peaknet{} represents a notable advancement in the automated processing of diffraction images.  The underlying neural network architecture enables \peaknet{} to autonomously discern and segregate pixel regions affected by artifact scattering, such as these appearing as distinct ring-like structures induced by liquid jet nozzle scattering.  This capability circumvents the need for manual masking in the peak finding process, thereby optimizing the efficiency of crystallographic data processing.
 
-Fig. \ref{fig : automask 1} provides a comparative visualization of \peaknet{}'s
-effectiveness in accurately segmenting regions with bright pixels induced by
-artifact scattering under various conditions.  Images without artifact ring
-structures are also included in the visualization, reassuring that \peaknet{}
-does not generate or ``hallucinate" artifact rings where they do not exist.  This
-visual representation serves as tangible evidence of \peaknet{} 's adeptness in
-discriminating and processing pertinent features, regardless of the contextual
-complexities.
+Fig. \ref{fig : automask 1} provides a comparative visualization of \peaknet{}'s effectiveness in accurately segmenting regions with bright pixels induced by artifact scattering under various conditions.  Images without artifact ring structures are also included in the visualization, reassuring that \peaknet{} does not generate or ``hallucinate" artifact rings where they do not exist.  This visual representation serves as tangible evidence of \peaknet{} 's adeptness in discriminating and processing pertinent features, regardless of the contextual complexities.
 
-Furthermore, while evaluating \peaknet{}'s ``auto-masking" feature on intended
-input images, we explored its behavior on unintended inputs, providing insights
-into its robustness and generalizability.  Fig. \ref{fig : automask 2} depicts
-illustrative examples of \peaknet{} predicting artifact scattering patterns in
-Ag Behenate scattering captured on various detectors.  Surprisingly, \peaknet{}
-reliably identifies the characteristic scattering ring structures present in Ag
-Behenate images.  This observation provides compelling evidence once again,
-further demonstrating the robust predictive capability of \peaknet{} in
-accurately recognizing artifact scattering patterns.  As a result, it reinforces
-that effectiveness of \peaknet{}'s ``auto-masking" feature.
+Furthermore, while evaluating \peaknet{}'s ``auto-masking" feature on intended input images, we explored its behavior on unintended inputs, providing insights into its robustness and generalizability.  Fig. \ref{fig : automask 2} depicts illustrative examples of \peaknet{} predicting artifact scattering patterns in Ag Behenate scattering captured on various detectors.  Surprisingly, \peaknet{} reliably identifies the characteristic scattering ring structures present in Ag Behenate images.  This observation provides compelling evidence once again, further demonstrating the robust predictive capability of \peaknet{} in accurately recognizing artifact scattering patterns.  As a result, it reinforces that effectiveness of \peaknet{}'s ``auto-masking" feature.
 
 
 \begin{figure*}[!ht]
@@ -566,23 +256,9 @@ response of \peaknet{} on images without any artifact scattering rings.}
 
 \subsection{Runtime efficiency}
 
-Peak finding can pose significant computational demands, particularly in high
-data rate experiments, highlighting the critical importance of an efficient peak
-finding algorithm.  A comparative analysis of runtime performance demonstrates
-the greater efficiency of \peaknet{} compared to other commonly used peak
-finders like the one within \psocake{}.
+Peak finding can pose significant computational demands, particularly in high data rate experiments, highlighting the critical importance of an efficient peak finding algorithm.  A comparative analysis of runtime performance demonstrates the greater efficiency of \peaknet{} compared to other commonly used peak finders like the one within \psocake{}.
 
-When processing Rayonix images with a resolution of $1920 \times 1920$,
-\peaknet{} achieved a significantly reduced processing time of 90 milliseconds
-per event on an NVIDIA 1080 Ti GPU.  In contrast, \psocake{} required 176
-milliseconds per event when executed on an Intel E5-2620.  Another peak finding
-method, RPF (robust peak finder), operating on Intel E5-2698, is reported to
-require 120.0 milliseconds but on smaller AGIPD 1M images with the size of $1024
-\times 1024$ \citep{hadian-jaziDataReductionSerial2021}.  This result clearly
-demonstrates that \peaknet{} not only delivers robust Bragg peak finding results
-in an autonomous fashion, but also exhibits remarkable runtime efficiency.  This
-establishes it as a highly competent tool for real-time autonomous Bragg peak
-finding.
+When processing Rayonix images with a resolution of $1920 \times 1920$, \peaknet{} achieved a significantly reduced processing time of 90 milliseconds per event on an NVIDIA 1080 Ti GPU.  In contrast, \psocake{} required 176 milliseconds per event when executed on an Intel E5-2620.  Another peak finding method, RPF (robust peak finder), operating on Intel E5-2698, is reported to require 120.0 milliseconds but on smaller AGIPD 1M images with the size of $1024 \times 1024$ \citep{hadian-jaziDataReductionSerial2021}.  This result clearly demonstrates that \peaknet{} not only delivers robust Bragg peak finding results in an autonomous fashion, but also exhibits remarkable runtime efficiency.  This establishes it as a highly competent tool for real-time autonomous Bragg peak finding.
 
 \begin{table}[t]
 \caption{
@@ -613,19 +289,7 @@ RPF                 & Intel E5-2698  & 1024 $\times$ 1024 & 120.0           \\ \
 
 \section{Conclusions}
 
-\peaknet{} exhibits exceptional capabilities in autonomous Bragg peaks finding
-without requiring user input or intervention, such as algorithmic parameter
-tuning or manual artifact scattering masking.  The predictive performance of
-\peaknet{} in peak finding proves to be comparable to, if not better than,
-manually fine-tuned \psocake{} with user-supplied masks.  An integral feature of
-\peaknet{}, auto-masking, significantly enhances its ability to autonomously
-identify and process artifact scattering patterns.  Moreover, the efficiency of
-\peaknet{} is exemplified by its impressive runtime performance, surpassesing
-commonly used peak finders like \psocake{} and RPF.  Parallel processing with
-GPU streaming can potentially improve the runtime efficiency even further.  In
-conclusion, \peaknet{}  offers a robust, versatile, and efficient solution that
-operates independently of user input, thereby holding significant potential for
-optimizing crystallographic data processing at high data rates.
+\peaknet{} exhibits exceptional capabilities in autonomous Bragg peaks finding without requiring user input or intervention, such as algorithmic parameter tuning or manual artifact scattering masking.  The predictive performance of \peaknet{} in peak finding proves to be comparable to, if not better than, manually fine-tuned \psocake{} with user-supplied masks.  An integral feature of \peaknet{}, auto-masking, significantly enhances its ability to autonomously identify and process artifact scattering patterns.  Moreover, the efficiency of \peaknet{} is exemplified by its impressive runtime performance, surpassesing commonly used peak finders like \psocake{} and RPF.  Parallel processing with GPU streaming can potentially improve the runtime efficiency even further.  In conclusion, \peaknet{}  offers a robust, versatile, and efficient solution that operates independently of user input, thereby holding significant potential for optimizing crystallographic data processing at high data rates.
 
 % Bibliography
 \bibliographystyle{plainnat}
