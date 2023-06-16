@@ -1,0 +1,89 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% set margin specifics
+%%\usepackage[a4paper,left=2.6cm,right=2.4cm,top=2.54cm,bottom=2.54cm]{geometry}
+\usepackage[a4paper, total={6.5in, 9in}]{geometry}
+
+
+% set unicode
+\usepackage[utf8]{inputenc}
+
+
+% set indent for paragraph
+\setlength{\parindent}{2em}
+
+
+% set graphics support
+\usepackage{graphicx}
+
+
+% setting line spaceing
+\renewcommand{\baselinestretch}{2.0}
+
+
+% use boldface in latex equation
+\usepackage{bm}
+
+
+% Extra math feature
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+
+% Code block
+\usepackage{listings}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    breaklines=true,
+}
+
+% Set the font for lstinline
+\makeatletter
+\lstdefinestyle{lststyle}{
+  basicstyle=%
+    \ttfamily
+    \color{black}%
+    \lst@ifdisplaystyle\scriptsize\fi
+}
+\makeatother
+\lstset{style=lststyle}
+
+
+% Color
+\usepackage{xcolor}
+
+
+% A better enumerate tool that allows changing the label of item
+% It has compatibility issue with beamer;
+\usepackage{enumitem}
+
+
+% Use emojis
+\usepackage{pifont}
+\usepackage{wasysym}
+
+
+% No indent
+\setlength{\parindent}{0cm}
+
+
+% Insert URL
+%% \usepackage{hyperref}    % !!! Not working well with old documents
+
+
+% Include picture environment
+\usepackage[calc]{picture}
+
+
+% Include TikZ environment
+\usepackage{tikz}
+\usepackage{calc}
+
+
+% Include caption
+\usepackage{caption}    % !!! For new document
+%% \usepackage{caption2}   % !!! Support old document
+\usepackage{float}
+
+% Include natbib
+\usepackage{natbib}
+\setcitestyle{authoryear,round}

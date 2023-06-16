@@ -1,0 +1,485 @@
+\begin{thebibliography}{32}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Allahgholi et~al.(2019)Allahgholi, Becker, Delfs, Dinapoli,
+  Goettlicher, Greiffenberg, Henrich, Hirsemann, Kuhn, Klanner, Klyuev,
+  Krueger, Lange, Laurus, Marras, Mezza, Mozzanica, Niemann, Poehlsen,
+  Schwandt, Sheviakov, Shi, Smoljanin, Steffen, {Sztuk-Dambietz}, Trunk, Xia,
+  Zeribi, Zhang, Zimmer, Schmitt, and
+  Graafsma]{allahgholiAdaptiveGainIntegrating2019}
+Aschkan Allahgholi, Julian Becker, Annette Delfs, Roberto Dinapoli, Peter
+  Goettlicher, Dominic Greiffenberg, Beat Henrich, Helmut Hirsemann, Manuela
+  Kuhn, Robert Klanner, Alexander Klyuev, Hans Krueger, Sabine Lange, Torsten
+  Laurus, Alessandro Marras, Davide Mezza, Aldo Mozzanica, Magdalena Niemann,
+  Jennifer Poehlsen, Joern Schwandt, Igor Sheviakov, Xintian Shi, Sergej
+  Smoljanin, Lothar Steffen, Jolanta {Sztuk-Dambietz}, Ulrich Trunk, Qingqing
+  Xia, Mourad Zeribi, Jiaguo Zhang, Manfred Zimmer, Bernd Schmitt, and Heinz
+  Graafsma.
+\newblock The {{Adaptive Gain Integrating Pixel Detector}} at the {{European
+  XFEL}}.
+\newblock \emph{Journal of Synchrotron Radiation}, 26\penalty0 (1):\penalty0
+  74--82, January 2019.
+\newblock ISSN 1600-5775.
+\newblock \doi{10.1107/S1600577518016077}.
+
+\bibitem[Aquila et~al.(2012)Aquila, Hunter, Doak, Kirian, Fromme, White,
+  Andreasson, Arnlund, Bajt, Barends, Barthelmess, Bogan, Bostedt, Bottin,
+  Bozek, Caleman, Coppola, Davidsson, DePonte, Elser, Epp, Erk, Fleckenstein,
+  Foucar, Frank, Fromme, Graafsma, Grotjohann, Gumprecht, Hajdu, Hampton,
+  Hartmann, Hartmann, {Hau-Riege}, Hauser, Hirsemann, Holl, Holton, H{\"o}mke,
+  Johansson, Kimmel, Kassemeyer, Krasniqi, K{\"u}hnel, Liang, Lomb, Malmerberg,
+  Marchesini, Martin, Maia, Messerschmidt, Nass, Reich, Neutze, Rolles, Rudek,
+  Rudenko, Schlichting, Schmidt, Schmidt, Schulz, Seibert, Shoeman, Sierra,
+  Soltau, Starodub, Stellato, Stern, Str{\"u}der, Timneanu, Ullrich, Wang,
+  Williams, Weidenspointner, Weierstall, Wunderer, Barty, Spence, and
+  Chapman]{aquilaTimeresolvedProteinNanocrystallography2012}
+Andrew Aquila, Mark~S. Hunter, R.~Bruce Doak, Richard~A. Kirian, Petra Fromme,
+  Thomas~A. White, Jakob Andreasson, David Arnlund, Sa{\v s}a Bajt, Thomas
+  R.~M. Barends, Miriam Barthelmess, Michael~J. Bogan, Christoph Bostedt,
+  Herv{\'e} Bottin, John~D. Bozek, Carl Caleman, Nicola Coppola, Jan Davidsson,
+  Daniel~P. DePonte, Veit Elser, Sascha~W. Epp, Benjamin Erk, Holger
+  Fleckenstein, Lutz Foucar, Matthias Frank, Raimund Fromme, Heinz Graafsma,
+  Ingo Grotjohann, Lars Gumprecht, Janos Hajdu, Christina~Y. Hampton, Andreas
+  Hartmann, Robert Hartmann, Stefan {Hau-Riege}, G{\"u}nter Hauser, Helmut
+  Hirsemann, Peter Holl, James~M. Holton, Andr{\'e} H{\"o}mke, Linda Johansson,
+  Nils Kimmel, Stephan Kassemeyer, Faton Krasniqi, Kai-Uwe K{\"u}hnel, Mengning
+  Liang, Lukas Lomb, Erik Malmerberg, Stefano Marchesini, Andrew~V. Martin,
+  Filipe~R.N.C. Maia, Marc Messerschmidt, Karol Nass, Christian Reich, Richard
+  Neutze, Daniel Rolles, Benedikt Rudek, Artem Rudenko, Ilme Schlichting, Carlo
+  Schmidt, Kevin~E. Schmidt, Joachim Schulz, M.~Marvin Seibert, Robert~L.
+  Shoeman, Raymond Sierra, Heike Soltau, Dmitri Starodub, Francesco Stellato,
+  Stephan Stern, Lothar Str{\"u}der, Nicusor Timneanu, Joachim Ullrich, Xiaoyu
+  Wang, Garth~J. Williams, Georg Weidenspointner, Uwe Weierstall, Cornelia
+  Wunderer, Anton Barty, John C.~H. Spence, and Henry~N. Chapman.
+\newblock Time-resolved protein nanocrystallography using an {{X-ray}}
+  free-electron laser.
+\newblock \emph{Optics Express}, 20\penalty0 (3):\penalty0 2706, January 2012.
+\newblock ISSN 1094-4087.
+\newblock \doi{10.1364/OE.20.002706}.
+
+\bibitem[Barty et~al.(2014)Barty, Kirian, Maia, Hantke, Yoon, White, and
+  Chapman]{bartyCheetahSoftwareHighthroughput2014}
+Anton Barty, Richard~A. Kirian, Filipe R. N.~C. Maia, Max Hantke, Chun~Hong
+  Yoon, Thomas~A. White, and Henry Chapman.
+\newblock {\emph{Cheetah}} : Software for high-throughput reduction and
+  analysis of serial femtosecond {{X-ray}} diffraction data.
+\newblock \emph{Journal of Applied Crystallography}, 47\penalty0 (3):\penalty0
+  1118--1131, June 2014.
+\newblock ISSN 1600-5767.
+\newblock \doi{10.1107/S1600576714007626}.
+
+\bibitem[Bolotovsky et~al.(1995)Bolotovsky, White, Darovsky, and
+  Coppens]{bolotovskySeedSkewnessMethodIntegration1995}
+R.~Bolotovsky, M.~A. White, A.~Darovsky, and P.~Coppens.
+\newblock The `{{Seed-Skewness}}' {{Method}} for {{Integration}} of {{Peaks}}
+  on {{Imaging Plates}}.
+\newblock \emph{Journal of Applied Crystallography}, 28\penalty0 (2):\penalty0
+  86--95, April 1995.
+\newblock ISSN 0021-8898.
+\newblock \doi{10.1107/S0021889894009696}.
+
+\bibitem[Chapman et~al.(2006)Chapman, Barty, Bogan, Boutet, Frank, {Hau-Riege},
+  Marchesini, Woods, Bajt, Benner, London, Pl{\"o}njes, Kuhlmann, Treusch,
+  D{\"u}sterer, Tschentscher, Schneider, Spiller, M{\"o}ller, Bostedt, Hoener,
+  Shapiro, Hodgson, {van der Spoel}, Burmeister, Bergh, Caleman, Huldt,
+  Seibert, Maia, Lee, Sz{\"o}ke, Timneanu, and
+  Hajdu]{chapmanFemtosecondDiffractiveImaging2006}
+Henry~N. Chapman, Anton Barty, Michael~J. Bogan, S{\'e}bastien Boutet, Matthias
+  Frank, Stefan~P. {Hau-Riege}, Stefano Marchesini, Bruce~W. Woods, Sa{\v s}a
+  Bajt, W.~Henry Benner, Richard~A. London, Elke Pl{\"o}njes, Marion Kuhlmann,
+  Rolf Treusch, Stefan D{\"u}sterer, Thomas Tschentscher, Jochen~R. Schneider,
+  Eberhard Spiller, Thomas M{\"o}ller, Christoph Bostedt, Matthias Hoener,
+  David~A. Shapiro, Keith~O. Hodgson, David {van der Spoel}, Florian
+  Burmeister, Magnus Bergh, Carl Caleman, G{\"o}sta Huldt, M.~Marvin Seibert,
+  Filipe R. N.~C. Maia, Richard~W. Lee, Abraham Sz{\"o}ke, Nicusor Timneanu,
+  and Janos Hajdu.
+\newblock Femtosecond diffractive imaging with a soft-{{X-ray}} free-electron
+  laser.
+\newblock \emph{Nature Physics}, 2\penalty0 (12):\penalty0 839--843, December
+  2006.
+\newblock ISSN 1745-2473, 1745-2481.
+\newblock \doi{10.1038/nphys461}.
+
+\bibitem[Chapman et~al.(2011)Chapman, Fromme, Barty, White, Kirian, Aquila,
+  Hunter, Schulz, DePonte, Weierstall, Doak, Maia, Martin, Schlichting, Lomb,
+  Coppola, Shoeman, Epp, Hartmann, Rolles, Rudenko, Foucar, Kimmel,
+  Weidenspointner, Holl, Liang, Barthelmess, Caleman, Boutet, Bogan,
+  Krzywinski, Bostedt, Bajt, Gumprecht, Rudek, Erk, Schmidt, H{\"o}mke, Reich,
+  Pietschner, Str{\"u}der, Hauser, Gorke, Ullrich, Herrmann, Schaller,
+  Schopper, Soltau, K{\"u}hnel, Messerschmidt, Bozek, {Hau-Riege}, Frank,
+  Hampton, Sierra, Starodub, Williams, Hajdu, Timneanu, Seibert, Andreasson,
+  Rocker, J{\"o}nsson, Svenda, Stern, Nass, Andritschke, Schr{\"o}ter,
+  Krasniqi, Bott, Schmidt, Wang, Grotjohann, Holton, Barends, Neutze,
+  Marchesini, Fromme, Schorb, Rupp, Adolph, Gorkhover, Andersson, Hirsemann,
+  Potdevin, Graafsma, Nilsson, and Spence]{chapmanFemtosecondXrayProtein2011}
+Henry~N. Chapman, Petra Fromme, Anton Barty, Thomas~A. White, Richard~A.
+  Kirian, Andrew Aquila, Mark~S. Hunter, Joachim Schulz, Daniel~P. DePonte, Uwe
+  Weierstall, R.~Bruce Doak, Filipe R. N.~C. Maia, Andrew~V. Martin, Ilme
+  Schlichting, Lukas Lomb, Nicola Coppola, Robert~L. Shoeman, Sascha~W. Epp,
+  Robert Hartmann, Daniel Rolles, Artem Rudenko, Lutz Foucar, Nils Kimmel,
+  Georg Weidenspointner, Peter Holl, Mengning Liang, Miriam Barthelmess, Carl
+  Caleman, S{\'e}bastien Boutet, Michael~J. Bogan, Jacek Krzywinski, Christoph
+  Bostedt, Sa{\v s}a Bajt, Lars Gumprecht, Benedikt Rudek, Benjamin Erk, Carlo
+  Schmidt, Andr{\'e} H{\"o}mke, Christian Reich, Daniel Pietschner, Lothar
+  Str{\"u}der, G{\"u}nter Hauser, Hubert Gorke, Joachim Ullrich, Sven Herrmann,
+  Gerhard Schaller, Florian Schopper, Heike Soltau, Kai-Uwe K{\"u}hnel, Marc
+  Messerschmidt, John~D. Bozek, Stefan~P. {Hau-Riege}, Matthias Frank,
+  Christina~Y. Hampton, Raymond~G. Sierra, Dmitri Starodub, Garth~J. Williams,
+  Janos Hajdu, Nicusor Timneanu, M.~Marvin Seibert, Jakob Andreasson, Andrea
+  Rocker, Olof J{\"o}nsson, Martin Svenda, Stephan Stern, Karol Nass, Robert
+  Andritschke, Claus-Dieter Schr{\"o}ter, Faton Krasniqi, Mario Bott, Kevin~E.
+  Schmidt, Xiaoyu Wang, Ingo Grotjohann, James~M. Holton, Thomas R.~M. Barends,
+  Richard Neutze, Stefano Marchesini, Raimund Fromme, Sebastian Schorb, Daniela
+  Rupp, Marcus Adolph, Tais Gorkhover, Inger Andersson, Helmut Hirsemann,
+  Guillaume Potdevin, Heinz Graafsma, Bj{\"o}rn Nilsson, and John C.~H. Spence.
+\newblock Femtosecond {{X-ray}} protein nanocrystallography.
+\newblock \emph{Nature}, 470\penalty0 (7332):\penalty0 73--77, February 2011.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/nature09750}.
+
+\bibitem[{Hadian-Jazi} et~al.(2017){Hadian-Jazi}, Messerschmidt, Darmanin,
+  Giewekemeyer, Mancuso, and Abbey]{hadian-jaziPeakfindingAlgorithmBased2017}
+Marjan {Hadian-Jazi}, Marc Messerschmidt, Connie Darmanin, Klaus Giewekemeyer,
+  Adrian~P. Mancuso, and Brian Abbey.
+\newblock A peak-finding algorithm based on robust statistical analysis in
+  serial crystallography.
+\newblock \emph{Journal of Applied Crystallography}, 50\penalty0 (6):\penalty0
+  1705--1715, December 2017.
+\newblock ISSN 1600-5767.
+\newblock \doi{10.1107/S1600576717014340}.
+
+\bibitem[{Hadian-Jazi} et~al.(2021){Hadian-Jazi}, Sadri, Barty, Yefanov,
+  Galchenkova, Oberthuer, Komadina, Brehm, Kirkwood, Mills, {de Wijn}, Letrun,
+  Kloos, Vakili, Gelisio, Darmanin, Mancuso, Chapman, and
+  Abbey]{hadian-jaziDataReductionSerial2021}
+Marjan {Hadian-Jazi}, Alireza Sadri, Anton Barty, Oleksandr Yefanov, Marina
+  Galchenkova, Dominik Oberthuer, Dana Komadina, Wolfgang Brehm, Henry
+  Kirkwood, Grant Mills, Raphael {de Wijn}, Romain Letrun, Marco Kloos,
+  Mohammad Vakili, Luca Gelisio, Connie Darmanin, Adrian~P. Mancuso, Henry~N.
+  Chapman, and Brian Abbey.
+\newblock Data reduction for serial crystallography using a robust peak finder.
+\newblock \emph{Journal of Applied Crystallography}, 54\penalty0 (5):\penalty0
+  1360--1378, October 2021.
+\newblock ISSN 1600-5767.
+\newblock \doi{10.1107/S1600576721007317}.
+
+\bibitem[Ibrahim et~al.(2020)Ibrahim, Fransson, Chatterjee, Cheah, Hussein,
+  Lassalle, Sutherlin, Young, Fuller, Gul, Kim, Simon, {de Lichtenberg},
+  Chernev, Bogacz, Pham, Orville, Saichek, Northen, Batyuk, Carbajo,
+  {Alonso-Mori}, Tono, Owada, Bhowmick, Bolotovsky, Mendez, Moriarty, Holton,
+  Dobbek, Brewster, Adams, Sauter, Bergmann, Zouni, Messinger, Kern, Yachandra,
+  and Yano]{ibrahimUntanglingSequenceEvents2020}
+Mohamed Ibrahim, Thomas Fransson, Ruchira Chatterjee, Mun~Hon Cheah, Rana
+  Hussein, Louise Lassalle, Kyle~D. Sutherlin, Iris~D. Young, Franklin~D.
+  Fuller, Sheraz Gul, In-Sik Kim, Philipp~S. Simon, Casper {de Lichtenberg},
+  Petko Chernev, Isabel Bogacz, Cindy~C. Pham, Allen~M. Orville, Nicholas
+  Saichek, Trent Northen, Alexander Batyuk, Sergio Carbajo, Roberto
+  {Alonso-Mori}, Kensuke Tono, Shigeki Owada, Asmit Bhowmick, Robert
+  Bolotovsky, Derek Mendez, Nigel~W. Moriarty, James~M. Holton, Holger Dobbek,
+  Aaron~S. Brewster, Paul~D. Adams, Nicholas~K. Sauter, Uwe Bergmann, Athina
+  Zouni, Johannes Messinger, Jan Kern, Vittal~K. Yachandra, and Junko Yano.
+\newblock Untangling the sequence of events during the {{S}}
+  {\textsubscript{2}} \textrightarrow{} {{S}} {\textsubscript{3}} transition in
+  photosystem {{II}} and implications for the water oxidation mechanism.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 117\penalty0
+  (23):\penalty0 12624--12635, June 2020.
+\newblock ISSN 0027-8424, 1091-6490.
+\newblock \doi{10.1073/pnas.2000529117}.
+
+\bibitem[Ke et~al.(2018)Ke, Brewster, Yu, Ushizima, Yang, and
+  Sauter]{keConvolutionalNeuralNetworkbased2018}
+Tsung-Wei Ke, Aaron~S. Brewster, Stella~X. Yu, Daniela Ushizima, Chao Yang, and
+  Nicholas~K. Sauter.
+\newblock A convolutional neural network-based screening tool for {{X-ray}}
+  serial crystallography.
+\newblock \emph{Journal of Synchrotron Radiation}, 25\penalty0 (3):\penalty0
+  655--670, May 2018.
+\newblock ISSN 1600-5775.
+\newblock \doi{10.1107/S1600577518004873}.
+
+\bibitem[Kern et~al.(2018)Kern, Chatterjee, Young, Fuller, Lassalle, Ibrahim,
+  Gul, Fransson, Brewster, {Alonso-Mori}, Hussein, Zhang, Douthit, {de
+  Lichtenberg}, Cheah, Shevela, Wersig, Seuffert, Sokaras, Pastor, Weninger,
+  Kroll, Sierra, Aller, Butryn, Orville, Liang, Batyuk, Koglin, Carbajo,
+  Boutet, Moriarty, Holton, Dobbek, Adams, Bergmann, Sauter, Zouni, Messinger,
+  Yano, and Yachandra]{kernStructuresIntermediatesKok2018}
+Jan Kern, Ruchira Chatterjee, Iris~D. Young, Franklin~D. Fuller, Louise
+  Lassalle, Mohamed Ibrahim, Sheraz Gul, Thomas Fransson, Aaron~S. Brewster,
+  Roberto {Alonso-Mori}, Rana Hussein, Miao Zhang, Lacey Douthit, Casper {de
+  Lichtenberg}, Mun~Hon Cheah, Dmitry Shevela, Julia Wersig, Ina Seuffert,
+  Dimosthenis Sokaras, Ernest Pastor, Clemens Weninger, Thomas Kroll,
+  Raymond~G. Sierra, Pierre Aller, Agata Butryn, Allen~M. Orville, Mengning
+  Liang, Alexander Batyuk, Jason~E. Koglin, Sergio Carbajo, S{\'e}bastien
+  Boutet, Nigel~W. Moriarty, James~M. Holton, Holger Dobbek, Paul~D. Adams, Uwe
+  Bergmann, Nicholas~K. Sauter, Athina Zouni, Johannes Messinger, Junko Yano,
+  and Vittal~K. Yachandra.
+\newblock Structures of the intermediates of {{Kok}}'s photosynthetic water
+  oxidation clock.
+\newblock \emph{Nature}, 563\penalty0 (7731):\penalty0 421--425, November 2018.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/s41586-018-0681-2}.
+
+\bibitem[Kupitz et~al.(2014)Kupitz, Basu, Grotjohann, Fromme, Zatsepin, Rendek,
+  Hunter, Shoeman, White, Wang, James, Yang, Cobb, Reeder, Sierra, Liu, Barty,
+  Aquila, Deponte, Kirian, Bari, Bergkamp, Beyerlein, Bogan, Caleman, Chao,
+  Conrad, Davis, Fleckenstein, Galli, {Hau-Riege}, Kassemeyer, Laksmono, Liang,
+  Lomb, Marchesini, Martin, Messerschmidt, Milathianaki, Nass, Ros,
+  {Roy-Chowdhury}, Schmidt, Seibert, Steinbrener, Stellato, Yan, Yoon, Moore,
+  Moore, Pushkar, Williams, Boutet, Doak, Weierstall, Frank, Chapman, Spence,
+  and Fromme]{kupitzSerialTimeresolvedCrystallography2014}
+Christopher Kupitz, Shibom Basu, Ingo Grotjohann, Raimund Fromme, Nadia~A.
+  Zatsepin, Kimberly~N. Rendek, Mark~S. Hunter, Robert~L. Shoeman, Thomas~A.
+  White, Dingjie Wang, Daniel James, Jay-How Yang, Danielle~E. Cobb, Brenda
+  Reeder, Raymond~G. Sierra, Haiguang Liu, Anton Barty, Andrew~L. Aquila,
+  Daniel Deponte, Richard~A. Kirian, Sadia Bari, Jesse~J. Bergkamp, Kenneth~R.
+  Beyerlein, Michael~J. Bogan, Carl Caleman, Tzu-Chiao Chao, Chelsie~E. Conrad,
+  Katherine~M. Davis, Holger Fleckenstein, Lorenzo Galli, Stefan~P.
+  {Hau-Riege}, Stephan Kassemeyer, Hartawan Laksmono, Mengning Liang, Lukas
+  Lomb, Stefano Marchesini, Andrew~V. Martin, Marc Messerschmidt, Despina
+  Milathianaki, Karol Nass, Alexandra Ros, Shatabdi {Roy-Chowdhury}, Kevin
+  Schmidt, Marvin Seibert, Jan Steinbrener, Francesco Stellato, Lifen Yan,
+  Chunhong Yoon, Thomas~A. Moore, Ana~L. Moore, Yulia Pushkar, Garth~J.
+  Williams, S{\'e}bastien Boutet, R.~Bruce Doak, Uwe Weierstall, Matthias
+  Frank, Henry~N. Chapman, John C.~H. Spence, and Petra Fromme.
+\newblock Serial time-resolved crystallography of photosystem {{II}} using a
+  femtosecond {{X-ray}} laser.
+\newblock \emph{Nature}, 513\penalty0 (7517):\penalty0 261--265, September
+  2014.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/nature13453}.
+
+\bibitem[Lin et~al.(2017)Lin, Doll{\'a}r, Girshick, He, Hariharan, and
+  Belongie]{linFeaturePyramidNetworks2017}
+Tsung-Yi Lin, Piotr Doll{\'a}r, Ross Girshick, Kaiming He, Bharath Hariharan,
+  and Serge Belongie.
+\newblock Feature {{Pyramid Networks}} for {{Object Detection}}, April 2017.
+
+\bibitem[Lin et~al.(2018)Lin, Goyal, Girshick, He, and
+  Doll{\'a}r]{linFocalLossDense2018}
+Tsung-Yi Lin, Priya Goyal, Ross Girshick, Kaiming He, and Piotr Doll{\'a}r.
+\newblock Focal {{Loss}} for {{Dense Object Detection}}, February 2018.
+
+\bibitem[Liu et~al.(2021)Liu, Sharma, Park, Kenesei, Miceli, Almer, Kettimuthu,
+  and Foster]{liuBraggNNFastXray2021}
+Zhengchun Liu, Hemant Sharma, Jun-Sang Park, Peter Kenesei, Antonino Miceli,
+  Jonathan Almer, Rajkumar Kettimuthu, and Ian Foster.
+\newblock {{BraggNN}}: {{Fast X-ray Bragg Peak Analysis Using Deep Learning}}.
+\newblock \emph{arXiv:2008.08198 [cs, eess]}, June 2021.
+
+\bibitem[Nango et~al.(2016)Nango, Royant, Kubo, Nakane, Wickstrand, Kimura,
+  Tanaka, Tono, Song, Tanaka, Arima, Yamashita, Kobayashi, Hosaka, Mizohata,
+  Nogly, Sugahara, Nam, Nomura, Shimamura, Im, Fujiwara, Yamanaka, Jeon,
+  Nishizawa, Oda, Fukuda, Andersson, B{\aa}th, Dods, Davidsson, Matsuoka,
+  Kawatake, Murata, Nureki, Owada, Kameshima, Hatsui, Joti, Schertler, Yabashi,
+  Bondar, Standfuss, Neutze, and
+  Iwata]{nangoThreedimensionalMovieStructural2016}
+Eriko Nango, Antoine Royant, Minoru Kubo, Takanori Nakane, Cecilia Wickstrand,
+  Tetsunari Kimura, Tomoyuki Tanaka, Kensuke Tono, Changyong Song, Rie Tanaka,
+  Toshi Arima, Ayumi Yamashita, Jun Kobayashi, Toshiaki Hosaka, Eiichi
+  Mizohata, Przemyslaw Nogly, Michihiro Sugahara, Daewoong Nam, Takashi Nomura,
+  Tatsuro Shimamura, Dohyun Im, Takaaki Fujiwara, Yasuaki Yamanaka, Byeonghyun
+  Jeon, Tomohiro Nishizawa, Kazumasa Oda, Masahiro Fukuda, Rebecka Andersson,
+  Petra B{\aa}th, Robert Dods, Jan Davidsson, Shigeru Matsuoka, Satoshi
+  Kawatake, Michio Murata, Osamu Nureki, Shigeki Owada, Takashi Kameshima,
+  Takaki Hatsui, Yasumasa Joti, Gebhard Schertler, Makina Yabashi, Ana-Nicoleta
+  Bondar, J{\"o}rg Standfuss, Richard Neutze, and So~Iwata.
+\newblock A three-dimensional movie of structural changes in bacteriorhodopsin.
+\newblock \emph{Science}, 354\penalty0 (6319):\penalty0 1552--1557, December
+  2016.
+\newblock ISSN 0036-8075, 1095-9203.
+\newblock \doi{10.1126/science.aah3497}.
+
+\bibitem[Neutze et~al.(2000)Neutze, Wouts, {van der Spoel}, Weckert, and
+  Hajdu]{neutzePotentialBiomolecularImaging2000}
+Richard Neutze, Remco Wouts, David {van der Spoel}, Edgar Weckert, and Janos
+  Hajdu.
+\newblock Potential for biomolecular imaging with femtosecond {{X-ray}} pulses.
+\newblock \emph{Nature}, 406\penalty0 (6797):\penalty0 752--757, August 2000.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/35021099}.
+
+\bibitem[Oktay et~al.(2018)Oktay, Schlemper, Folgoc, Lee, Heinrich, Misawa,
+  Mori, McDonagh, Hammerla, Kainz, Glocker, and
+  Rueckert]{oktayAttentionUNetLearning2018}
+Ozan Oktay, Jo~Schlemper, Loic~Le Folgoc, Matthew Lee, Mattias Heinrich,
+  Kazunari Misawa, Kensaku Mori, Steven McDonagh, Nils~Y. Hammerla, Bernhard
+  Kainz, Ben Glocker, and Daniel Rueckert.
+\newblock Attention {{U-Net}}: {{Learning Where}} to {{Look}} for the
+  {{Pancreas}}, May 2018.
+
+\bibitem[Pande et~al.(2016)Pande, Hutchison, Groenhof, Aquila, Robinson,
+  Tenboer, Basu, Boutet, DePonte, Liang, White, Zatsepin, Yefanov, Morozov,
+  Oberthuer, Gati, Subramanian, James, Zhao, Koralek, Brayshaw, Kupitz, Conrad,
+  {Roy-Chowdhury}, Coe, Metz, Xavier, Grant, Koglin, Ketawala, Fromme, {\v
+  S}rajer, Henning, Spence, Ourmazd, Schwander, Weierstall, Frank, Fromme,
+  Barty, Chapman, Moffat, {van Thor}, and
+  Schmidt]{pandeFemtosecondStructuralDynamics2016a}
+Kanupriya Pande, Christopher D.~M. Hutchison, Gerrit Groenhof, Andy Aquila,
+  Josef~S. Robinson, Jason Tenboer, Shibom Basu, S{\'e}bastien Boutet,
+  Daniel~P. DePonte, Mengning Liang, Thomas~A. White, Nadia~A. Zatsepin,
+  Oleksandr Yefanov, Dmitry Morozov, Dominik Oberthuer, Cornelius Gati, Ganesh
+  Subramanian, Daniel James, Yun Zhao, Jake Koralek, Jennifer Brayshaw,
+  Christopher Kupitz, Chelsie Conrad, Shatabdi {Roy-Chowdhury}, Jesse~D. Coe,
+  Markus Metz, Paulraj~Lourdu Xavier, Thomas~D. Grant, Jason~E. Koglin, Gihan
+  Ketawala, Raimund Fromme, Vukica {\v S}rajer, Robert Henning, John C.~H.
+  Spence, Abbas Ourmazd, Peter Schwander, Uwe Weierstall, Matthias Frank, Petra
+  Fromme, Anton Barty, Henry~N. Chapman, Keith Moffat, Jasper~J. {van Thor},
+  and Marius Schmidt.
+\newblock Femtosecond structural dynamics drives the trans/cis isomerization in
+  photoactive yellow protein.
+\newblock \emph{Science}, 352\penalty0 (6286):\penalty0 725--729, May 2016.
+\newblock ISSN 0036-8075, 1095-9203.
+\newblock \doi{10.1126/science.aad5081}.
+
+\bibitem[Radosavovic et~al.(2020)Radosavovic, Kosaraju, Girshick, He, and
+  Doll{\'a}r]{radosavovicDesigningNetworkDesign2020}
+Ilija Radosavovic, Raj~Prateek Kosaraju, Ross Girshick, Kaiming He, and Piotr
+  Doll{\'a}r.
+\newblock Designing {{Network Design Spaces}}, March 2020.
+
+\bibitem[Ronneberger et~al.(2015)Ronneberger, Fischer, and
+  Brox]{ronnebergerUNetConvolutionalNetworks2015}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-{{Net}}: {{Convolutional Networks}} for {{Biomedical Image
+  Segmentation}}.
+\newblock \emph{arXiv:1505.04597 [cs]}, May 2015.
+
+\bibitem[Shin et~al.(2018)Shin, Kim, and Yoon]{shinDataAnalysisUsing2018}
+Hocheol Shin, Seungnam Kim, and Chun~Hong Yoon.
+\newblock Data {{Analysis}} using {{Psocake}} at {{PAL-XFEL}}.
+\newblock \emph{Journal of the Korean Physical Society}, 73\penalty0
+  (1):\penalty0 16--20, July 2018.
+\newblock ISSN 0374-4884, 1976-8524.
+\newblock \doi{10.3938/jkps.73.16}.
+
+\bibitem[Su et~al.(2021)Su, Cantlon, Douthit, Wiedorn, Boutet, Kern, Yoon, and
+  DePonte]{suSerialCrystallographyUsing2021}
+Zhen Su, Joshua Cantlon, Lacey Douthit, Max Wiedorn, S{\'e}bastien Boutet, Jan
+  Kern, Chun~Hong Yoon, and Daniel DePonte.
+\newblock Serial crystallography using automated drop dispensing.
+\newblock \emph{Journal of Synchrotron Radiation}, 28\penalty0 (5):\penalty0
+  1386--1392, September 2021.
+\newblock ISSN 1600-5775.
+\newblock \doi{10.1107/S1600577521006160}.
+
+\bibitem[Suga et~al.(2017)Suga, Akita, Sugahara, Kubo, Nakajima, Nakane,
+  Yamashita, Umena, Nakabayashi, Yamane, Nakano, Suzuki, Masuda, Inoue, Kimura,
+  Nomura, Yonekura, Yu, Sakamoto, Motomura, Chen, Kato, Noguchi, Tono, Joti,
+  Kameshima, Hatsui, Nango, Tanaka, Naitow, Matsuura, Yamashita, Yamamoto,
+  Nureki, Yabashi, Ishikawa, Iwata, and
+  Shen]{sugaLightinducedStructuralChanges2017}
+Michihiro Suga, Fusamichi Akita, Michihiro Sugahara, Minoru Kubo, Yoshiki
+  Nakajima, Takanori Nakane, Keitaro Yamashita, Yasufumi Umena, Makoto
+  Nakabayashi, Takahiro Yamane, Takamitsu Nakano, Mamoru Suzuki, Tetsuya
+  Masuda, Shigeyuki Inoue, Tetsunari Kimura, Takashi Nomura, Shinichiro
+  Yonekura, Long-Jiang Yu, Tomohiro Sakamoto, Taiki Motomura, Jing-Hua Chen,
+  Yuki Kato, Takumi Noguchi, Kensuke Tono, Yasumasa Joti, Takashi Kameshima,
+  Takaki Hatsui, Eriko Nango, Rie Tanaka, Hisashi Naitow, Yoshinori Matsuura,
+  Ayumi Yamashita, Masaki Yamamoto, Osamu Nureki, Makina Yabashi, Tetsuya
+  Ishikawa, So~Iwata, and Jian-Ren Shen.
+\newblock Light-induced structural changes and the site of {{O}}={{O}} bond
+  formation in {{PSII}} caught by {{XFEL}}.
+\newblock \emph{Nature}, 543\penalty0 (7643):\penalty0 131--135, March 2017.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/nature21400}.
+
+\bibitem[Suga et~al.(2020)Suga, Shimada, Akita, Shen, Tosha, and
+  Sugimoto]{sugaTimeresolvedStudiesMetalloproteins2020}
+Michihiro Suga, Atsuhiro Shimada, Fusamichi Akita, Jian-Ren Shen, Takehiko
+  Tosha, and Hiroshi Sugimoto.
+\newblock Time-resolved studies of metalloproteins using {{X-ray}} free
+  electron laser radiation at {{SACLA}}.
+\newblock \emph{Biochimica et Biophysica Acta (BBA) - General Subjects},
+  1864\penalty0 (2):\penalty0 129466, February 2020.
+\newblock ISSN 03044165.
+\newblock \doi{10.1016/j.bbagen.2019.129466}.
+
+\bibitem[Sullivan et~al.(2019)Sullivan, Archibald, Azadmanesh, Vandavasi,
+  Langan, Coates, Lynch, and Langan]{sullivanBraggNetIntegratingBragg2019}
+Brendan Sullivan, Rick Archibald, Jahaun Azadmanesh, Venu~Gopal Vandavasi,
+  Patricia~S. Langan, Leighton Coates, Vickie Lynch, and Paul Langan.
+\newblock {{BraggNet}}: Integrating {{Bragg}} peaks using neural networks.
+\newblock \emph{Journal of Applied Crystallography}, 52\penalty0 (4):\penalty0
+  854--863, August 2019.
+\newblock ISSN 1600-5767.
+\newblock \doi{10.1107/S1600576719008665}.
+
+\bibitem[Tan et~al.(2020)Tan, Pang, and
+  Le]{tanEfficientDetScalableEfficient2020}
+Mingxing Tan, Ruoming Pang, and Quoc~V. Le.
+\newblock {{EfficientDet}}: {{Scalable}} and {{Efficient Object Detection}},
+  July 2020.
+
+\bibitem[Weaver(1985)]{weaverCentrosymmetricCrossSymmetricMatrices1985}
+James~R. Weaver.
+\newblock Centrosymmetric ({{Cross-Symmetric}}) {{Matrices}}, {{Their Basic
+  Properties}}, {{Eigenvalues}}, and {{Eigenvectors}}.
+\newblock \emph{The American Mathematical Monthly}, 92\penalty0 (10):\penalty0
+  711, December 1985.
+\newblock ISSN 00029890.
+\newblock \doi{10.2307/2323222}.
+
+\bibitem[White et~al.(2012)White, Kirian, Martin, Aquila, Nass, Barty, and
+  Chapman]{whiteCrystFELSoftwareSuite2012}
+Thomas~A. White, Richard~A. Kirian, Andrew~V. Martin, Andrew Aquila, Karol
+  Nass, Anton Barty, and Henry~N. Chapman.
+\newblock {{{\emph{CrystFEL}}}} : A software suite for snapshot serial
+  crystallography.
+\newblock \emph{Journal of Applied Crystallography}, 45\penalty0 (2):\penalty0
+  335--341, April 2012.
+\newblock ISSN 0021-8898.
+\newblock \doi{10.1107/S0021889812002312}.
+
+\bibitem[Wilkinson et~al.(1988)Wilkinson, Khamis, Stansfield, and
+  McIntyre]{wilkinsonIntegrationSinglecrystalReflections1988a}
+C.~Wilkinson, H.~W. Khamis, R.~F.~D. Stansfield, and G.~J. McIntyre.
+\newblock Integration of single-crystal reflections using area multidetectors.
+\newblock \emph{Journal of Applied Crystallography}, 21\penalty0 (5):\penalty0
+  471--478, October 1988.
+\newblock ISSN 0021-8898.
+\newblock \doi{10.1107/S0021889888005400}.
+
+\bibitem[Yoon(2020)]{yoonPsocakeGUIMaking2020}
+Chun~Hong Yoon.
+\newblock Psocake: {{GUI}} for {{Making Data Analysis}} a {{Piece}} of
+  {{Cake}}.
+\newblock In \emph{Handbook on {{Big Data}} and {{Machine Learning}} in the
+  {{Physical Sciences}}}, pages 169--178. {World Scientific Publishing Co Pte
+  Ltd}, May 2020.
+
+\bibitem[Young et~al.(2016)Young, Ibrahim, Chatterjee, Gul, Fuller, Koroidov,
+  Brewster, Tran, {Alonso-Mori}, Kroll, {Michels-Clark}, Laksmono, Sierra,
+  Stan, Hussein, Zhang, Douthit, Kubin, {de Lichtenberg}, Vo~Pham, Nilsson,
+  Cheah, Shevela, Saracini, Bean, Seuffert, Sokaras, Weng, Pastor, Weninger,
+  Fransson, Lassalle, Br{\"a}uer, Aller, Docker, Andi, Orville, Glownia,
+  Nelson, Sikorski, Zhu, Hunter, Lane, Aquila, Koglin, Robinson, Liang, Boutet,
+  Lyubimov, Uervirojnangkoorn, Moriarty, Liebschner, Afonine, Waterman, Evans,
+  Wernet, Dobbek, Weis, Brunger, Zwart, Adams, Zouni, Messinger, Bergmann,
+  Sauter, Kern, Yachandra, and Yano]{youngStructurePhotosystemII2016}
+Iris~D. Young, Mohamed Ibrahim, Ruchira Chatterjee, Sheraz Gul, Franklin~D.
+  Fuller, Sergey Koroidov, Aaron~S. Brewster, Rosalie Tran, Roberto
+  {Alonso-Mori}, Thomas Kroll, Tara {Michels-Clark}, Hartawan Laksmono,
+  Raymond~G. Sierra, Claudiu~A. Stan, Rana Hussein, Miao Zhang, Lacey Douthit,
+  Markus Kubin, Casper {de Lichtenberg}, Long Vo~Pham, H{\aa}kan Nilsson,
+  Mun~Hon Cheah, Dmitriy Shevela, Claudio Saracini, Mackenzie~A. Bean, Ina
+  Seuffert, Dimosthenis Sokaras, Tsu-Chien Weng, Ernest Pastor, Clemens
+  Weninger, Thomas Fransson, Louise Lassalle, Philipp Br{\"a}uer, Pierre Aller,
+  Peter~T. Docker, Babak Andi, Allen~M. Orville, James~M. Glownia, Silke
+  Nelson, Marcin Sikorski, Diling Zhu, Mark~S. Hunter, Thomas~J. Lane, Andy
+  Aquila, Jason~E. Koglin, Joseph Robinson, Mengning Liang, S{\'e}bastien
+  Boutet, Artem~Y. Lyubimov, Monarin Uervirojnangkoorn, Nigel~W. Moriarty,
+  Dorothee Liebschner, Pavel~V. Afonine, David~G. Waterman, Gwyndaf Evans,
+  Philippe Wernet, Holger Dobbek, William~I. Weis, Axel~T. Brunger, Petrus~H.
+  Zwart, Paul~D. Adams, Athina Zouni, Johannes Messinger, Uwe Bergmann,
+  Nicholas~K. Sauter, Jan Kern, Vittal~K. Yachandra, and Junko Yano.
+\newblock Structure of photosystem {{II}} and substrate binding at room
+  temperature.
+\newblock \emph{Nature}, 540\penalty0 (7633):\penalty0 453--457, December 2016.
+\newblock ISSN 0028-0836, 1476-4687.
+\newblock \doi{10.1038/nature20161}.
+
+\end{thebibliography}
