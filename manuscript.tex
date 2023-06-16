@@ -271,10 +271,17 @@ the $i$-th example.  $p_j^{(i)}$ is the predicted probability of the $j$-th
 class for the $i$-th example, calculated by the neural network $f$ parameterized
 by $\theta$ given input $x_j^{(i)}$.  $\gamma$ is a parameter controling the
 extent to which the weight of well-classified examples, such as background
-pixels, is reduced.  In our neural network training, we chose $\alpha = 1.2$
-across all examples and $\gamma = 2.0$.  Essentially, this means $(1-\hat{p}
-_j^{(i)}) ^\gamma$ is solely responsible for down-weighting easy examples, as
-$\hat{p} _j^{(i)}$ is usually large in this case.  
+pixels, is reduced.  In our neural network training, we chose $\gamma = 2.0$,
+essentially, this means $(1-\hat{p} _j^{(i)}) ^\gamma$ is solely responsible for
+down-weighting easy examples, as $\hat{p} _j^{(i)}$ is usually large in this
+case.  Finding the ideal values for $\alpha$ can be a delicate process with only
+marginal returns, as highlighted in the original focal loss study
+\citep{linFocalLossDense2018}.  In order to fully utilize focal loss, we decided
+to use a fixed trivial value of $\alpha = 1.2$ for all examples, primarily for
+the sake of completeness.  This choice essentially treats $\alpha$ as a simple
+scaling factor without significant impact.  It is worth noting that in most
+cases, the sum of all $\alpha_j$ values, denoted as $\sum_{j = 1}^{C} \alpha_j$,
+is expected to equal 1.
 
 
 \subsection{Data augmentation}
