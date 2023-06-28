@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{33}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -166,6 +166,15 @@ Marjan {Hadian-Jazi}, Alireza Sadri, Anton Barty, Oleksandr Yefanov, Marina
   1360--1378, October 2021.
 \newblock ISSN 1600-5767.
 \newblock \doi{10.1107/S1600576721007317}.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{heDeepResidualLearning2016}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep {{Residual Learning}} for {{Image Recognition}}.
+\newblock In \emph{2016 {{IEEE Conference}} on {{Computer Vision}} and
+  {{Pattern Recognition}} ({{CVPR}})}, pages 770--778, {Las Vegas, NV, USA},
+  June 2016. {IEEE}.
+\newblock ISBN 978-1-4673-8851-1.
+\newblock \doi{10.1109/CVPR.2016.90}.
 
 \bibitem[Ibrahim et~al.(2020)Ibrahim, Fransson, Chatterjee, Cheah, Hussein,
   Lassalle, Sutherlin, Young, Fuller, Gul, Kim, Simon, {de Lichtenberg},
@@ -335,12 +344,6 @@ Kanupriya Pande, Christopher D.~M. Hutchison, Gerrit Groenhof, Andy Aquila,
 \newblock ISSN 0036-8075, 1095-9203.
 \newblock \doi{10.1126/science.aad5081}.
 
-\bibitem[Radosavovic et~al.(2020)Radosavovic, Kosaraju, Girshick, He, and
-  Doll{\'a}r]{radosavovicDesigningNetworkDesign2020}
-Ilija Radosavovic, Raj~Prateek Kosaraju, Ross Girshick, Kaiming He, and Piotr
-  Doll{\'a}r.
-\newblock Designing {{Network Design Spaces}}, March 2020.
-
 \bibitem[Ronneberger et~al.(2015)Ronneberger, Fischer, and
   Brox]{ronnebergerUNetConvolutionalNetworks2015}
 Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
@@ -442,6 +445,19 @@ C.~Wilkinson, H.~W. Khamis, R.~F.~D. Stansfield, and G.~J. McIntyre.
   471--478, October 1988.
 \newblock ISSN 0021-8898.
 \newblock \doi{10.1107/S0021889888005400}.
+
+\bibitem[Winter et~al.(2018)Winter, Waterman, Parkhurst, Brewster, Gildea,
+  Gerstel, {Fuentes-Montero}, Vollmar, {Michels-Clark}, Young, Sauter, and
+  Evans]{winterDIALSImplementationEvaluation2018}
+Graeme Winter, David~G. Waterman, James~M. Parkhurst, Aaron~S. Brewster,
+  Richard~J. Gildea, Markus Gerstel, Luis {Fuentes-Montero}, Melanie Vollmar,
+  Tara {Michels-Clark}, Iris~D. Young, Nicholas~K. Sauter, and Gwyndaf Evans.
+\newblock {{{\emph{DIALS}}}} : Implementation and evaluation of a new
+  integration package.
+\newblock \emph{Acta Crystallographica Section D Structural Biology},
+  74\penalty0 (2):\penalty0 85--97, February 2018.
+\newblock ISSN 2059-7983.
+\newblock \doi{10.1107/S2059798317017235}.
 
 \bibitem[Yoon(2020)]{yoonPsocakeGUIMaking2020}
 Chun~Hong Yoon.
