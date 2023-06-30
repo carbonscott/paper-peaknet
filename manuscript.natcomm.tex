@@ -117,7 +117,7 @@
 
 \begin{abstract}
 
-Serial crystallography at X-ray free electron laser (XFEL) and synchrotron facilities has experienced tremendous progress in recent times enabling novel scientific investigations into macromolecular structures and molecular processes.  However, these experiments generate a significant amount of data posing computational challenges in data reduction and real-time feedback. Bragg peak finding algorithm is used to identify useful images and also provide real-time feedback about hit-rate and resolution. Shot-to-shot intensity fluctuations and strong background scattering from buffer solution, injection nozzle and other shielding materials make this a time-consuming optimization problem.  Here, we present \peaknet{}, an autonomous Bragg peak finder that utilizes deep neural networks. The development of this system 1) eliminates the need for manual algorithm parameter tuning, 2) reduces false-positive peaks by adjusting to shot-to-shot variations in strong background scattering in real-time, 3) eliminates the laborious task of manually creating bad pixel masks and the need to store these masks per event since these can be regenerated on demand.  \peaknet{} also exhibits exceptional runtime efficiency, processing a $1920 \times 1920$ pixel image around 90 ms on an NVIDIA 1080 Ti GPU, with the potential for further enhancements through parallelized analysis or GPU stream processing.  \peaknet{} is well-suited for expert-level real-time serial crystallography data analysis at high data rates.
+Serial crystallography at X-ray free electron laser (XFEL) and synchrotron facilities has experienced tremendous progress in recent times enabling novel scientific investigations into macromolecular structures and molecular processes.  However, these experiments generate a significant amount of data posing computational challenges in data reduction and real-time feedback. Bragg peak finding algorithm is used to identify useful images and also provide real-time feedback about hit-rate and resolution. Shot-to-shot intensity fluctuations and strong background scattering from buffer solution, injection nozzle and other shielding materials make this a time-consuming optimization problem.  Here, we present \peaknet{}, an autonomous Bragg peak finder that utilizes deep neural networks. The development of this system 1) eliminates the need for manual algorithm parameter tuning, 2) reduces false-positive peaks by adjusting to shot-to-shot variations in strong background scattering in real-time, 3) eliminates the laborious task of manually creating bad pixel masks and the need to store these masks per event since these can be regenerated on demand.  \peaknet{} also exhibits exceptional runtime efficiency, processing a $1920 \times 1920$ pixel image around 90 milliseconds for peak finding and mask generation on an NVIDIA 1080 Ti GPU, with the potential for further enhancements through parallelized analysis or GPU stream processing.  \peaknet{} is well-suited for expert-level real-time serial crystallography data analysis at high data rates.
 
 \end{abstract}
 
@@ -347,28 +347,22 @@ response of \peaknet{} on images without any artifact scattering rings.}
 
 Peak finding can pose a significant computational demand, particularly in high data rate experiments, highlighting the critical importance of an efficient peak finding algorithm.  A comparative analysis of runtime performance demonstrates the greater efficiency of \peaknet{} compared to other commonly used \psocake{} peak finder.
 
-When processing Rayonix images with $1920 \times 1920$ pixels, \peaknet{} achieved a significantly reduced processing time of 90 milliseconds per event on an NVIDIA 1080 Ti GPU.  In contrast, \psocake{} required 176 milliseconds per event when executed on an Intel E5-2620 CPU.  Another peak finding method, RPF (robust peak finder), operating on Intel E5-2698, is reported to require 120 milliseconds but on a smaller AGIPD 1M images \citep{hadian-jaziDataReductionSerial2021}.  This result clearly demonstrates that \peaknet{} not only delivers robust Bragg peak finding results in an autonomous fashion, but also exhibits remarkable runtime efficiency.  %This establishes it as a highly competent tool for real-time autonomous Bragg peak finding.
+When processing Rayonix images with $1920 \times 1920$ pixels, \peaknet{} achieved a significantly reduced processing time of 90 milliseconds per event on an NVIDIA 1080 Ti GPU for peak finding and auto-mask generation.  In contrast, \psocake{} required 176 milliseconds per event when executed on an Intel E5-2620 CPU.  To provide a reference, an earlier study \citep{hadian-jaziDataReductionSerial2021} also reported the runtime efficiency of both the Robust Peak Finder (RBF) and Cheetah, demonstrating an average processing time of around 120 milliseconds for 3 times smaller AGIPD 1M \citep{allahgholiAdaptiveGainIntegrating2019} images.  It should be noted that computation time would be even longer if the auto-masking feature is introduced to these existing peak finders. This result clearly demonstrates that \peaknet{} not only delivers robust Bragg peak finding results autonomously but also exhibits remarkable runtime efficiency.
 
 \begin{table*}[t]
 \caption{
-    The runtime performance of diffraction image analysis algorithms measured on
-    Rayonix images containing 3.7 megapixels.  We measured runtime performance
-    of \psocake{} and \peaknet{} directly using Rayonix images.  For reference
-    purposes, we also included another peak finding method RPF
-    \citep{hadian-jaziPeakfindingAlgorithmBased2017,
-    hadian-jaziDataReductionSerial2021} and two classification methods for X-ray
-    diffraction data reduction. RPF runtime performance was originally measured
-    on AGIPD 1M \citep{allahgholiAdaptiveGainIntegrating2019}.  
+    The runtime performance of diffraction image analysis algorithms measured on Rayonix images containing 3.7 megapixels.  We measured runtime performance of \psocake{} and \peaknet{} directly using Rayonix images.  For reference purposes, we also included peak finding methods RPF and Cheetah, whose runtime performance were originally measured on AGIPD 1M.
 }
 \label{tb : runtime}
 \centering
 \resizebox{!}{!}{
-\begin{tabular}{llcc}
+\begin{tabular}{lllcc}
 \hline
-Methods             & Hardware       & Image size         & Time (ms/event) \\ \hline
-\peaknet{}          & NVIDIA 1080 Ti & 1920 $\times$ 1920 & 90.0            \\ \hline
-\psocake{}          & Intel E5-2620  & 1920 $\times$ 1920 & 175.5           \\ \hline
-RPF                 & Intel E5-2698  & 1024 $\times$ 1024 & 120.0           \\ \hline
+Methods         &  Auto-mask   & Hardware       & Image dimension    & Time (ms/event) \\ \hline
+\peaknet{}      &  Yes         & NVIDIA 1080 Ti & 1920 $\times$ 1920 & 90.0            \\ \hline
+\psocake{}      &  No          & Intel E5-2620  & 1920 $\times$ 1920 & 175.5           \\ \hline
+RPF             &  No          & Intel E5-2698  & 1024 $\times$ 1024 & 120.0           \\ \hline
+Cheetah         &  No          & Intel E5-2698  & 1024 $\times$ 1024 & 120.0           \\ \hline
 %CNN hit finder      & Hit Finding  & NVIDIA 1080 Ti & 720 $\times$ 720   & 0.8             \\ \hline
 %ORB+MLP             & Hit Finding  & Intel Core i5  & 720 $\times$ 720   & 50.0            \\ \hline
 \end{tabular}
